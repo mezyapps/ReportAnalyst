@@ -34,12 +34,14 @@ SessionManager sessionManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        sessionManager = new SessionManager(getApplicationContext());
         setContentView(R.layout.activity_login);
+
+        sessionManager = new SessionManager(getApplicationContext());
         textInputEditTextname = findViewById(R.id.ed_username_signin);
         textInputEditTextpass = findViewById(R.id.ed_user_pass_signin);
         Button login = findViewById(R.id.btn_signin);
         db = openOrCreateDatabase("MY_INVOICE", Context.MODE_PRIVATE, null);
+
         // db.execSQL("CREATE TABLE IF NOT EXISTS CON_TABLE(id INTEGER PRIMARY KEY AUTOINCREMENT,con_ip VARCHAR,db_name VARCHAR,username VARCHAR,password VARCHAR)");
 
         connectionClass = new ConectionAdmin();

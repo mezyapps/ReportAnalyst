@@ -16,8 +16,8 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
     private Context context1;
     private ArrayList<String> data;
-    public Resources res;
-    LayoutInflater inflater;
+    private Resources res;
+    private LayoutInflater inflater;
 
     public CustomSpinnerAdapter(Context context, ArrayList<String> objects) {
         super(context, R.layout.spinner_row, objects);

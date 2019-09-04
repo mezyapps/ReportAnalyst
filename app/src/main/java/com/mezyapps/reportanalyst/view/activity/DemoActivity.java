@@ -16,13 +16,17 @@ import com.mezyapps.reportanalyst.utils.SessionManager;
 import java.text.SimpleDateFormat;
 
 public class DemoActivity extends AppCompatActivity {
-SQLiteDatabase db;
-LicenseSession licenseSession;
-SessionManager sessionManager;
+
+    SQLiteDatabase db;
+    LicenseSession licenseSession;
+    SessionManager sessionManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
+
         licenseSession=new LicenseSession(getApplicationContext());
         sessionManager=new SessionManager(getApplicationContext());
         db = openOrCreateDatabase("MY_INVOICE", Context.MODE_PRIVATE, null);
