@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Report Analyst</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Mezy App</string>
+    <string name="nav_header_subtitle">support@jmd-infotech.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="action_settings">Setting</string>
+    <string name="rs">\u20B9</string>
+</resources>

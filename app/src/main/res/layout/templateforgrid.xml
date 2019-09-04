@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:weightSum="3"
+    android:padding="5dp" >
+
+    <TextView android:id="@+id/txtcountry"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5px"
+        android:text="COUNTRY"
+
+        android:background="#FFCCA6A6"
+        android:textStyle="bold"
+        android:textColor="#ff3c3c"
+        android:textSize="12sp" >
+    </TextView>
+    <TextView android:id="@+id/txtcontinent"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5px"
+        android:text="CONTINENT"
+        android:background="#FFCCA6A6"
+        android:textStyle="bold|italic"
+        android:textColor="#0080ff"
+        android:textSize="12sp" >
+    </TextView>
+
+    <TextView android:id="@+id/txtcontinentTT"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5px"
+        android:text="CONTINENT"
+        android:background="#FFCCA6A6"
+        android:textStyle="bold|italic"
+        android:textColor="#0080ff"
+        android:textSize="16sp" >
+    </TextView>
+
+</LinearLayout>

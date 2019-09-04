@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.mezyapps.reportanalyst.view.activity.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
+<LinearLayout
+    android:onClick="saleReport"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+<ImageView
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="30dp"
+    android:layout_gravity="center_vertical"
+    android:layout_width="50dp"
+    android:src="@drawable/coinicon"
+    android:layout_height="50dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+     <LinearLayout
+         android:layout_marginTop="10dp"
+         android:paddingLeft="10dp"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+         <TextView
+             android:id="@+id/ruppees_symoble_sale"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="@string/rs"
+             android:fontFamily="calibri"
+             android:textSize="20sp"
+             android:textColor="#000"
+             />
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+            android:id="@+id/saletotalamt_tv"
+             android:fontFamily="calibri"
+             android:textSize="20sp"
+             android:text="00.00"
+             android:textColor="#000"
+             />
+     </LinearLayout>
+<TextView
+    android:layout_marginTop="5dp"
+    android:textSize="17sp"
+    android:fontFamily="calibri"
+    android:paddingLeft="25dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Sale Report"/>
+    </LinearLayout>
+</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#d6d3d3"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:onClick="purchaseReport"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <ImageView
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="50dp"
+                android:src="@drawable/dairy"
+                android:layout_height="50dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/ruppees_symoble_perchase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rs"
+                        android:fontFamily="calibri"
+                        android:textSize="20sp"
+                        android:textColor="#000"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/purchasetotalamt_tv"
+                        android:fontFamily="calibri"
+                        android:textSize="20sp"
+                        android:text="00.00"
+                        android:textColor="#000"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="calibri"
+                    android:paddingLeft="25dp"
+                    android:textSize="17sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Purchase Report"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:background="#d6d3d3"-->
+            <!--android:layout_height="1dp" />-->
+        <!--<LinearLayout-->
+            <!--android:onClick="stockOutstanding"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="80dp">-->
+            <!--<ImageView-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:layout_marginLeft="30dp"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:layout_width="50dp"-->
+                <!--android:src="@drawable/stock_report"-->
+                <!--android:layout_height="50dp" />-->
+            <!--<LinearLayout-->
+                <!--android:orientation="vertical"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content">-->
+                <!--<LinearLayout-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content">-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="@string/rs"-->
+                        <!--android:fontFamily="calibri"-->
+                        <!--android:textSize="20sp"-->
+                        <!--android:textColor="#000"-->
+                        <!--/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="00.00"-->
+                        <!--android:fontFamily="calibri"-->
+                        <!--android:textSize="20sp"-->
+                        <!--android:textColor="#000"-->
+                        <!--/>-->
+                <!--</LinearLayout>-->
+                <!--<TextView-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:textSize="17sp"-->
+                    <!--android:fontFamily="calibri"-->
+                    <!--android:paddingLeft="25dp"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Stock Report"/>-->
+            <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#d6d3d3"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:onClick="customerledger"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <ImageView
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="50dp"
+                android:src="@drawable/customer_ledgger"
+                android:layout_height="50dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rs"
+                        android:fontFamily="calibri"
+                        android:textSize="20sp"
+                        android:textColor="#000"
+                        />
+                    <TextView
+                        android:id="@+id/customerledgertotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00.00"
+                        android:fontFamily="calibri"
+                        android:textSize="20sp"
+                        android:textColor="#000"
+                        />
+                </LinearLayout>
+                <TextView
+
+                    android:layout_marginTop="5dp"
+                    android:textSize="17sp"
+                    android:fontFamily="calibri"
+                    android:paddingLeft="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Outstanding Receivable"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#d6d3d3"
+            android:layout_height="1dp" />
+        <LinearLayout
+            android:onClick="supplierledger"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <ImageView
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_width="50dp"
+                android:src="@drawable/supplierledger"
+                android:layout_height="50dp" />
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/rs"
+                        android:fontFamily="calibri"
+                        android:textSize="20sp"
+                        android:textColor="#000"
+                        />
+                    <TextView
+                        android:id="@+id/supplierledgertotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00.00"
+                        android:fontFamily="calibri"
+                        android:textSize="20sp"
+                        android:textColor="#000"
+                        />
+                </LinearLayout>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textSize="17sp"
+                    android:fontFamily="calibri"
+                    android:paddingLeft="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Outstanding Payable"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:background="#d6d3d3"
+            android:layout_height="1dp" />
+    </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+

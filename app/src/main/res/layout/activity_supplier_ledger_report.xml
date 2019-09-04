@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.CustomerLedgerReportActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary" >
+            <LinearLayout
+                android:id="@+id/tollbarcontainer"
+                android:weightSum="5"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_weight="3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Supplier Ledger"
+                    android:textColor="#fff"/>
+                <ImageView
+                    android:onClick="searchBtuon"
+                    android:id="@+id/serch_button_click"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_search_black_24dp"/>
+
+                <ImageView
+                    android:onClick="CalenderListbutoon"
+                    android:id="@+id/calender_image_btn"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/events_calendar_icon"/>
+            </LinearLayout>
+            <LinearLayout
+                android:weightSum="5"
+                android:background="@drawable/ripple"
+                android:id="@+id/search_show_layout"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <SearchView
+                    android:focusable="false"
+                    android:layout_weight="4.5"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_width="0dp"
+                    android:id="@+id/searchautocompleteforcustomer"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search here"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:fontFamily="calibri"> </SearchView>
+                <ImageView
+                    android:layout_marginRight="50dp"
+                    android:layout_weight=".5"
+                    android:layout_marginTop="10dp"
+                    android:onClick="searchlosebutton"
+                    android:id="@+id/search_closebutton"
+                    android:layout_width="0dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/ic_close_black_24dp"/>
+
+
+
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+        <LinearLayout
+
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:text="@string/rs"/>
+                <TextView
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="calibri"
+                    android:layout_gravity="center"
+                    android:id="@+id/show_total_amt_head"
+                    android:textColor="#fff" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/from_date_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:fontFamily="calibri"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#fff" />
+
+
+                <TextView
+                    android:textColor="#fff"
+                    android:id="@+id/to_textview"
+                    android:layout_width="wrap_content"
+                    android:text=" to "
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/to_date_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:fontFamily="calibri"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#fff" />
+                <TextView
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:fontFamily="calibri"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textColor="#fff" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <GridView android:id="@+id/gridviewsalehyead"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center">
+
+    </GridView>
+</LinearLayout>

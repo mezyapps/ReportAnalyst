@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/licenseactivitybg"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.activity.DemoActivity">
+<LinearLayout
+    android:gravity="center_vertical"
+    android:layout_gravity="center_vertical"
+    android:padding="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <Button
+      android:onClick="clicklicensekeybutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripplebtn"
+        android:text="START WITH LICENSE KEY"
+        android:textColor="#fff"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="70dp"
+        android:id="@+id/profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/mezysplas"
+        app:civ_border_width="3dp" />
+    <Button
+        android:onClick="clcikdemobutton"
+        android:layout_marginTop="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripplebtn"
+        android:text="START WITH Demo"
+        android:textColor="#fff"/>
+</LinearLayout>
+
+</LinearLayout>

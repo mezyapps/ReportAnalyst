@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.mezyapps.reportanalyst.view.activity.MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+        <LinearLayout
+            android:weightSum="9"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@color/colorPrimary">
+<ImageView
+    android:id="@+id/previosdate"
+    android:layout_width="25dp"
+    android:layout_weight="1"
+    android:layout_height="30dp"
+    android:src="@drawable/left_arrow"/>
+            <LinearLayout
+                android:layout_weight="6"
+                android:weightSum="6"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/calender_image_btn"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/events_calendar_icon"/>
+                <TextView
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/datefromview_textview"
+                    android:textColor="#fff"
+                    android:textAlignment="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/to_tetxt_textview"
+                    android:text=" to "
+                    android:textColor="#fff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/datetoview_textview"
+                    android:textColor="#fff"
+                    android:textAlignment="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/next_date"
+                android:layout_weight="1"
+                android:layout_width="25dp"
+                android:layout_height="30dp"
+                android:src="@drawable/arrow_right"/>
+        </LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_main" />
+
+
+
+</LinearLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/licenseactivitybg">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_marginTop="70dp"
+        android:id="@+id/profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/mezysplas"
+        app:civ_border_width="3dp" />
+
+    <TextView
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:layout_marginTop="20dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Welcome to MEZYAPPS"/>
+
+</LinearLayout>
