@@ -11,10 +11,10 @@ import java.util.HashMap;
 
 public class LicenseSession {
 
-    SharedPreferences pref;
-    Editor editor;
-    Context mContext;
-    int PRIVATE_MODE = 0;
+    private SharedPreferences pref;
+    private Editor editor;
+    private Context mContext;
+    private int PRIVATE_MODE = 0;
     private static final String NAME = "License";
     private static final String LOGIN = "IsLoggedIn";
     public static final String NAM = "name";

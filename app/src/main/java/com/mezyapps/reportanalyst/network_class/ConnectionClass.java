@@ -14,13 +14,14 @@ import java.sql.SQLException;
 
 
 public class ConnectionClass {
-    Context context;
-    String classs = "net.sourceforge.jtds.jdbc.Driver";
-    String iip;
-    String dbb;
-    String uss;
-    String pss;
-    IPAddress ipAddress;
+
+    private Context context;
+    private String classs = "net.sourceforge.jtds.jdbc.Driver";
+    private String iip;
+    private String dbb;
+    private String uss;
+    private String pss;
+    private IPAddress ipAddress;
 
     public ConnectionClass(Context context) {
         this.context = context;
