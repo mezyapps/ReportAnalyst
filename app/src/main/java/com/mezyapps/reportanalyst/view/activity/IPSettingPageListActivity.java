@@ -1,4 +1,4 @@
-package com.mezyapps.reportanalyst.network_class;
+package com.mezyapps.reportanalyst.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-import com.mezyapps.reportanalyst.view.activity.MainActivity;
+import com.mezyapps.reportanalyst.network_class.ConectionAdmin;
 import com.mezyapps.reportanalyst.R;
 import com.mezyapps.reportanalyst.utils.SessionManager;
 
@@ -25,35 +25,44 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class IPSettingPageList extends AppCompatActivity {
-    GridView gridViewv;
-    ConectionAdmin conectionAdmin;
-    Connection con;
-    SimpleAdapter ADA;
-    String quuerycalender;
-    SQLiteDatabase db;
-    int idip;
-    SharedPreferences pref;
-    SessionManager sessionManager;
+public class IPSettingPageListActivity extends AppCompatActivity {
+
+    private GridView gridViewv;
+    private ConectionAdmin conectionAdmin;
+    private Connection con;
+    private SimpleAdapter ADA;
+    private String quuerycalender;
+    private SQLiteDatabase db;
+    private int idip;
+    private SharedPreferences pref;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ipsetting_page_list);
+
+
+        find_View_IdS();
+        events();
+    }
+
+    private void find_View_IdS() {
         gridViewv=findViewById(R.id.gridvietipsetting);
         conectionAdmin=new ConectionAdmin();
         db = openOrCreateDatabase("MY_INVOICE", Context.MODE_PRIVATE, null);
         pref = this.getSharedPreferences("CON", Context.MODE_PRIVATE);
         sessionManager=new SessionManager(getApplicationContext());
-        HashMap<String, String> user = sessionManager.getUserDetails();
-            String userid=  user.get(SessionManager.KEY_password);
-            quuerycalender = "Select * from DB_TABLE WHERE USERID="+Integer.parseInt(userid);
+    }
 
+    private void events() {
+
+        HashMap<String, String> user = sessionManager.getUserDetails();
+        String userid=  user.get(SessionManager.KEY_password);
+        quuerycalender = "Select * from DB_TABLE WHERE USERID="+Integer.parseInt(userid);
 
         try {
-
             con = conectionAdmin.CONNN();
-
             if (con == null) {
                 Toast.makeText(this, "connection problem", Toast.LENGTH_SHORT).show();
             } else {
@@ -61,7 +70,7 @@ public class IPSettingPageList extends AppCompatActivity {
                 ResultSet rs = stmt.executeQuery(quuerycalender);
 
 
-            ArrayList    data = new ArrayList<Map<String, String>>();
+                ArrayList    data = new ArrayList<Map<String, String>>();
 
                 while (rs.next()) {
                     Map<String, String> datanum = new HashMap<String, String>();
@@ -74,7 +83,7 @@ public class IPSettingPageList extends AppCompatActivity {
                 }
                 String[] from = {"A"};
                 final int[] views = {R.id.prinnameip,};
-                ADA = new SimpleAdapter(IPSettingPageList.this, data, R.layout.ip_listgrid_layout, from, views);
+                ADA = new SimpleAdapter(IPSettingPageListActivity.this, data, R.layout.ip_listgrid_layout, from, views);
                 gridViewv.setAdapter(ADA);
 
 
@@ -93,12 +102,12 @@ public class IPSettingPageList extends AppCompatActivity {
 
                             if (c.moveToFirst()) {
                                 do {
-                           idip=  c.getInt(c.getColumnIndex("id"));
+                                    idip=  c.getInt(c.getColumnIndex("id"));
                                 } while (c.moveToNext());
                                 c.close();
                             }
                             db.execSQL("UPDATE CON_TABLE  SET con_ip ='" + ipstrin + "',db_name ='" + dptext + "',username ='" + userstring + "',password ='" + passstring + "' WHERE id =" + idip + "");
-                            Toast.makeText(IPSettingPageList.this, "Successfuly Updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(IPSettingPageListActivity.this, "Successfuly Updated", Toast.LENGTH_SHORT).show();
                             pref.edit().clear();
                             pref.edit().putString("print",printname).apply();
                             pref.edit().putString("ip",ipstrin).apply();
@@ -106,7 +115,7 @@ public class IPSettingPageList extends AppCompatActivity {
                             pref.edit().putString("us",userstring).apply();
                             pref.edit().putString("ps",passstring).apply();
                             pref.edit().commit();
-                          startActivity(new Intent(IPSettingPageList.this, MainActivity.class));
+                            startActivity(new Intent(IPSettingPageListActivity.this, MainActivity.class));
                             finish();
                         }  else {
                             db.execSQL("INSERT INTO CON_TABLE(con_ip,db_name,username,password)VALUES('" + ipstrin + "','" + dptext + "', '" + userstring + "','"+passstring+"' )");
@@ -116,7 +125,7 @@ public class IPSettingPageList extends AppCompatActivity {
                             pref.edit().putString("us",userstring).apply();
                             pref.edit().putString("ps",passstring).apply();
                             pref.edit().commit();
-                          startActivity(new Intent(IPSettingPageList.this,MainActivity.class));
+                            startActivity(new Intent(IPSettingPageListActivity.this,MainActivity.class));
                             finish();
                         }
                     }
@@ -127,12 +136,13 @@ public class IPSettingPageList extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(IPSettingPageList.this,MainActivity.class));
+        startActivity(new Intent(IPSettingPageListActivity.this,MainActivity.class));
         finish();
     }
 }

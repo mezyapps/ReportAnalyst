@@ -33,26 +33,34 @@ import java.util.Map;
 
 public class PurchaseReportDetailActivity extends AppCompatActivity {
 
-    ConnectionClass connectionClass;
+    private ConnectionClass connectionClass;
+    private GridView gridview;
+    private List<Map<String, String>> data = null;
+    private SimpleAdapter ADA;
+    private ImageView search_closebutton;
+    private TextView to_date_tv,from_date_tv,to_text_tv,showTotalamt_tv,customenaeme;
+    private int groupid;
+    private String hhtdt,hhfdt,gquery;
+    private String cname;
+    private Toolbar toolbar;
+    private SearchView searchView_customer;
 
-    GridView gridview;
-    List<Map<String, String>> data = null;
-    SimpleAdapter ADA;
-    ImageView search_closebutton;
-    TextView to_date_tv,from_date_tv,to_text_tv,showTotalamt_tv,customenaeme;
-    int groupid;
-    String hhtdt,hhfdt,gquery;
-    String cname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_purchase_report_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        connectionClass = new ConnectionClass(getApplicationContext());
 
+
+        find_View_IdS();
+        events();
+    }
+
+    private void find_View_IdS() {
+        toolbar = findViewById(R.id.toolbar);
+        connectionClass = new ConnectionClass(getApplicationContext());
         gridview = findViewById(R.id.gridviewsalehyeadsub);
         search_closebutton=findViewById(R.id.search_closebutton);
-        final SearchView searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
+        searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
         to_date_tv=findViewById(R.id.to_date_textview);
         to_text_tv=findViewById(R.id.to_textview);
         from_date_tv=findViewById(R.id.from_date_textview);
@@ -70,11 +78,9 @@ public class PurchaseReportDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
+    }
+    private void events() {
         ggeatdataforgrid();
-
-
-        //start searchview *****************************
 
         searchView_customer.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -95,13 +101,10 @@ public class PurchaseReportDetailActivity extends AppCompatActivity {
                 return false;
             }
         });
-//end search view##############################################3
-
 
     }
 
     private void ggeatdataforgrid() {
-        //start customer and amt grid**************************************
 
         if (hhtdt.length() != 0 && hhfdt.length() != 0)
         {

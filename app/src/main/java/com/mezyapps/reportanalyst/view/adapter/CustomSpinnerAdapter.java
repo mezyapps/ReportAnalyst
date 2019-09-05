@@ -45,7 +45,7 @@ public class CustomSpinnerAdapter extends ArrayAdapter<String> {
 
         View row = inflater.inflate(R.layout.spinner_row, parent, false);
 
-        TextView tvCategory = (TextView) row.findViewById(R.id.tvCategory);
+        TextView tvCategory = row.findViewById(R.id.tvCategory);
 
         tvCategory.setText(data.get(position).toString());
 

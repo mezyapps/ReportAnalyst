@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.mezyapps.reportanalyst.network_class.LicenseSession;
+import com.mezyapps.reportanalyst.utils.LicenseSession;
 import com.mezyapps.reportanalyst.R;
 import com.mezyapps.reportanalyst.utils.SessionManager;
 
@@ -17,15 +17,20 @@ import java.text.SimpleDateFormat;
 
 public class DemoActivity extends AppCompatActivity {
 
-    SQLiteDatabase db;
-    LicenseSession licenseSession;
-    SessionManager sessionManager;
-
+    private SQLiteDatabase db;
+    private LicenseSession licenseSession;
+    private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demo);
+
+        find_View_IdS();
+
+    }
+
+    private void find_View_IdS() {
 
         licenseSession=new LicenseSession(getApplicationContext());
         sessionManager=new SessionManager(getApplicationContext());
@@ -38,7 +43,6 @@ public class DemoActivity extends AppCompatActivity {
             startActivity(new Intent(DemoActivity.this, MainActivity.class));
             finish();
         }
-
     }
 
     public void clicklicensekeybutton(View view) {

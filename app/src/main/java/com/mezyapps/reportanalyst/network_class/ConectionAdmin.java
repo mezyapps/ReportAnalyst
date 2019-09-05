@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConectionAdmin {
+
     String ip = "67.211.45.179:1091";
     String classs = "net.sourceforge.jtds.jdbc.Driver";
     String db = "ANDROID_CONN";

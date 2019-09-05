@@ -29,16 +29,26 @@ import java.util.List;
 import java.util.Map;
 
 public class PurchaseReportBillDetailActivity extends AppCompatActivity {
-    ConnectionClass connectionClass;
-    GridView gridview;
-    List<Map<String, String>> data = null;
-    TextView netamount_bill ,customername_bill ,bill_date,bill_no_invo;
-    int ENTRYID;
-    String gquery;
-    SimpleAdapter ADA;
+
+    private ConnectionClass connectionClass;
+    private GridView gridview;
+    private List<Map<String, String>> data = null;
+    private TextView netamount_bill ,customername_bill ,bill_date,bill_no_invo;
+    private int ENTRYID;
+    private String gquery;
+    private SimpleAdapter ADA;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        find_View_IdS();
+        events();
+
+    }
+
+    private void find_View_IdS() {
         setContentView(R.layout.activity_purchase_report_bill_detail);
         Toolbar toolbar = findViewById(R.id.toolbar);
         connectionClass = new ConnectionClass(getApplicationContext());
@@ -58,11 +68,9 @@ public class PurchaseReportBillDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
+    }
+    private void events() {
         ggeatdataforgrid();
-
-
-
     }
 
     private void ggeatdataforgrid() {

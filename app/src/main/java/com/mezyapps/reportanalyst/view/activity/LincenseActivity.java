@@ -23,7 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mezyapps.reportanalyst.R;
 import com.mezyapps.reportanalyst.utils.SessionManager;
-import com.mezyapps.reportanalyst.network_class.LicenseSession;
+import com.mezyapps.reportanalyst.utils.LicenseSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,52 +33,24 @@ import java.util.ArrayList;
 
 
 public class LincenseActivity extends AppCompatActivity {
-    String licenseString, macAddress;
-    SQLiteDatabase db;
-    LicenseSession licenseSession;
-    String straate;
-    EditText licenseEdit;
-    ArrayList<String> sss = new ArrayList<>();
-    Button btn_call_me_back;
-    SessionManager sessionManager;
+
+    private String licenseString, macAddress;
+    private SQLiteDatabase db;
+    private LicenseSession licenseSession;
+    private String straate;
+    private EditText licenseEdit;
+    private ArrayList<String> sss = new ArrayList<>();
+    private Button btn_call_me_back;
+    private SessionManager sessionManager;
+    private Button licenseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lincense);
-        db = openOrCreateDatabase("MY_INVOICE", Context.MODE_PRIVATE, null);
-        db.execSQL("CREATE TABLE IF NOT EXISTS CON_TABLE(id INTEGER PRIMARY KEY AUTOINCREMENT,con_ip VARCHAR,db_name VARCHAR,username VARCHAR,password VARCHAR)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS SEVEN_DAYS(slno INTEGER PRIMARY KEY AUTOINCREMENT,start_date VARCHAR)");
-        db.execSQL("CREATE TABLE IF NOT EXISTS MAC(id INTEGER PRIMARY KEY AUTOINCREMENT,license VARCHAR,status VARCHAR)");
 
-        sessionManager = new SessionManager(getApplicationContext());
-
-        licenseSession = new LicenseSession(getApplicationContext());
-        licenseEdit = findViewById(R.id.ed_licensekey);
-        Button licenseButton = findViewById(R.id.btn_lecense_next);
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
-        }
-        macAddress = telephonyManager.getDeviceId();
-
-
-//        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-//        WifiInfo wInfo = wifiManager.getConnectionInfo();
-        // macAddress = wInfo.getMacAddress().replaceAll(":","");
-        //Toast.makeText(this,  macAddress, Toast.LENGTH_SHORT).show();
-        licenseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                licenseString = licenseEdit.getText().toString().trim().replaceAll(":", "");
-                if (licenseString.equals("")) {
-                    Toast.makeText(LincenseActivity.this, "Enter License Key", Toast.LENGTH_SHORT).show();
-                } else {
-                    licenseverify();
-                }
-            }
-        });
+        find_View_IdS();
+        events();
 
 
         Cursor c1 = db.rawQuery("SELECT * FROM MAC ", null);
@@ -107,6 +79,46 @@ public class LincenseActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void find_View_IdS() {
+        db = openOrCreateDatabase("MY_INVOICE", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS CON_TABLE(id INTEGER PRIMARY KEY AUTOINCREMENT,con_ip VARCHAR,db_name VARCHAR,username VARCHAR,password VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS SEVEN_DAYS(slno INTEGER PRIMARY KEY AUTOINCREMENT,start_date VARCHAR)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS MAC(id INTEGER PRIMARY KEY AUTOINCREMENT,license VARCHAR,status VARCHAR)");
+
+        sessionManager = new SessionManager(getApplicationContext());
+
+        licenseSession = new LicenseSession(getApplicationContext());
+        licenseEdit = findViewById(R.id.ed_licensekey);
+        licenseButton = findViewById(R.id.btn_lecense_next);
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        macAddress = telephonyManager.getDeviceId();
+
+
+//        WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo wInfo = wifiManager.getConnectionInfo();
+        // macAddress = wInfo.getMacAddress().replaceAll(":","");
+        //Toast.makeText(this,  macAddress, Toast.LENGTH_SHORT).show();
+
+    }
+
+    private void events() {
+        licenseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                licenseString = licenseEdit.getText().toString().trim().replaceAll(":", "");
+                if (licenseString.equals("")) {
+                    Toast.makeText(LincenseActivity.this, "Enter License Key", Toast.LENGTH_SHORT).show();
+                } else {
+                    licenseverify();
+                }
+            }
+        });
     }
 
     private void licenseverify() {
@@ -209,7 +221,7 @@ public class LincenseActivity extends AppCompatActivity {
     public void stratwithdemo(View view) {
         Cursor c1 = db.rawQuery("SELECT * FROM SEVEN_DAYS ", null);
         if (c1 != null && c1.getCount() > 0) {
-           Toast.makeText(LincenseActivity.this, "Already Use Trial App", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LincenseActivity.this, "Already Use Trial App", Toast.LENGTH_SHORT).show();
         } else {
             long date = System.currentTimeMillis();
             SimpleDateFormat df = new SimpleDateFormat("yyyy MM dd");

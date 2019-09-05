@@ -1,6 +1,12 @@
-package com.mezyapps.reportanalyst.network_class;
+package com.mezyapps.reportanalyst.model;
 
 public class IPAddress {
+
+    String ip;
+    String db;
+    String un;
+    String password;
+
     public IPAddress() {
 
     }
@@ -37,21 +43,6 @@ public class IPAddress {
         this.password = password;
     }
 
-//    public IPAddress(String ip, String db, String un, String password) {
-//        this.ip = ip;
-//        this.db = db;
-//        this.un = un;
-//        this.password = password;
-//    }
 
-    String ip;
-    String db;
-    String un;
-    String password;
-
-//  String ip = "67.211.45.179:1091";
-//    String db = "KENAN_APP";
-//    String un = "JMDINFOTECH";
-//    String password = "Jmd&23Info$10Tech~79";
 
 }

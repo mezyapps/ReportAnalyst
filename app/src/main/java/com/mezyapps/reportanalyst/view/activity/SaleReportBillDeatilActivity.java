@@ -28,18 +28,28 @@ import java.util.List;
 import java.util.Map;
 
 public class SaleReportBillDeatilActivity extends AppCompatActivity {
-   ConnectionClass connectionClass;
-    GridView gridview;
-    List<Map<String, String>> data = null;
-    TextView netamount_bill ,customername_bill ,bill_date,bill_no_invo;
-    int ENTRYID;
-    String gquery;
-    SimpleAdapter ADA;
+
+    private ConnectionClass connectionClass;
+    private GridView gridview;
+    private List<Map<String, String>> data = null;
+    private TextView netamount_bill ,customername_bill ,bill_date,bill_no_invo;
+    private int ENTRYID;
+    private String gquery;
+    private SimpleAdapter ADA;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sale_report_bill_deatil);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+
+        find_View_IdS();
+        events();
+
+    }
+    private void find_View_IdS() {
+        toolbar = findViewById(R.id.toolbar);
         connectionClass = new ConnectionClass(getApplicationContext());
         ENTRYID = Integer.parseInt(getIntent().getStringExtra("ENTRYID"));
         netamount_bill= findViewById(R.id.netamount_bill);
@@ -51,25 +61,20 @@ public class SaleReportBillDeatilActivity extends AppCompatActivity {
         bill_no_invo.setText(getIntent().getStringExtra("bn"));
         bill_date=findViewById(R.id.bill_date);
         bill_date.setText(getIntent().getStringExtra("bd"));
-       setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
-       ggeatdataforgrid();
-
-
-
+    }
+    private void events() {
+        ggeatdataforgrid();
     }
 
     private void ggeatdataforgrid() {
-        //start customer and amt grid**************************************
 
-            gquery = "select * from SALDET_VIEW WHERE ENTRYID ="+ENTRYID ;
-
-
+        gquery = "select * from SALDET_VIEW WHERE ENTRYID ="+ENTRYID ;
 
         try {
 

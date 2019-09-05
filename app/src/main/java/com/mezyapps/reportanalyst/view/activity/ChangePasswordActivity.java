@@ -1,4 +1,4 @@
-package com.mezyapps.reportanalyst.network_class;
+package com.mezyapps.reportanalyst.view.activity;
 
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,20 +12,29 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.mezyapps.reportanalyst.R;
+import com.mezyapps.reportanalyst.network_class.ConectionAdmin;
 import com.mezyapps.reportanalyst.utils.SessionManager;
 
 import java.sql.Connection;
 import java.sql.Statement;
 
-public class ChnagePassword extends AppCompatActivity {
-    TextInputEditText username_ed,password_ed,re_password_ed;
-    Button submit_chnage;
-    ConectionAdmin connectionClass;
-    SessionManager sessionManager;
+public class ChangePasswordActivity extends AppCompatActivity {
+
+    private TextInputEditText username_ed,password_ed,re_password_ed;
+    private Button submit_chnage;
+    private ConectionAdmin connectionClass;
+    private SessionManager sessionManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chnage_password);
+
+        find_View_IdS();
+        events();
+    }
+
+    private void find_View_IdS() {
         sessionManager=new SessionManager(getApplicationContext());
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -37,6 +46,9 @@ public class ChnagePassword extends AppCompatActivity {
         password_ed=findViewById(R.id.password_ed);
         re_password_ed=findViewById(R.id.re_password_ed);
         submit_chnage=findViewById(R.id.submit_chnage);
+    }
+
+    private void events() {
         submit_chnage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -44,7 +56,6 @@ public class ChnagePassword extends AppCompatActivity {
                 doChange.execute("");
             }
         });
-
     }
 
     @Override
@@ -53,7 +64,6 @@ public class ChnagePassword extends AppCompatActivity {
             finish();
         return super.onOptionsItemSelected(item);
     }
-
 
     public class DoChange extends AsyncTask<String,String,String>
     {
@@ -70,10 +80,10 @@ public class ChnagePassword extends AppCompatActivity {
         @Override
         protected void onPostExecute(String r) {
 
-            Toast.makeText(ChnagePassword.this,r,Toast.LENGTH_SHORT).show();
+            Toast.makeText(ChangePasswordActivity.this,r,Toast.LENGTH_SHORT).show();
 
             if(isSuccess) {
-                Toast.makeText(ChnagePassword.this,r,Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChangePasswordActivity.this,r,Toast.LENGTH_SHORT).show();
             }
 
         }

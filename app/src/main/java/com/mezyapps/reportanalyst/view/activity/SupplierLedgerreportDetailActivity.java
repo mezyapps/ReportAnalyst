@@ -32,26 +32,36 @@ import java.util.List;
 import java.util.Map;
 
 public class SupplierLedgerreportDetailActivity extends AppCompatActivity {
-    ConnectionClass connectionClass;
-    GridView gridview;
-    List<Map<String, String>> data = null;
-    SimpleAdapter ADA;
-    ImageView search_closebutton;
-    TextView to_date_tv,from_date_tv,to_text_tv,showTotalamt_tv,customenaeme;
-    int groupid;
-    String hhtdt,hhfdt,gquery;
-    String cname;
-    Spinner spinner_nav;
-    SearchView searchView_customer;
+
+    private  ConnectionClass connectionClass;
+    private  GridView gridview;
+    private  List<Map<String, String>> data = null;
+    private  SimpleAdapter ADA;
+    private  ImageView search_closebutton;
+    private  TextView to_date_tv,from_date_tv,to_text_tv,showTotalamt_tv,customenaeme;
+    private  int groupid;
+    private  String hhtdt,hhfdt,gquery;
+    private  String cname;
+    private  Spinner spinner_nav;
+    private  SearchView searchView_customer;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supplier_ledgerreport_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+
+        find_View_IdS();
+        events();
+    }
+
+    private void find_View_IdS() {
+        toolbar = findViewById(R.id.toolbar);
         connectionClass = new ConnectionClass(getApplicationContext());
         gridview = findViewById(R.id.gridviewsalehyeadsub);
         search_closebutton=findViewById(R.id.search_closebutton);
-     searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
+        searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
         to_date_tv=findViewById(R.id.to_date_textview);
         to_text_tv=findViewById(R.id.to_textview);
         from_date_tv=findViewById(R.id.from_date_textview);
@@ -69,12 +79,9 @@ public class SupplierLedgerreportDetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
+    }
 
-
-
-
-        //start searchview *****************************
-
+    private void events() {
         searchView_customer.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -95,8 +102,6 @@ public class SupplierLedgerreportDetailActivity extends AppCompatActivity {
             }
         });
 
-
-//end search view##############################################3
         addItemsToSpinner();
     }
 

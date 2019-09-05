@@ -38,51 +38,59 @@ import java.util.Locale;
 import java.util.Map;
 
 public class SaleReportActivity extends AppCompatActivity {
-    Dialog dialog,dialogcustomdate;
-    ConnectionClass connectionClass;
-    SimpleDateFormat df,dff;
-    GridView gridview;
-    List<Map<String, String>> data = null;
-    Connection con;
-     SimpleAdapter ADA;
-    ImageView search_closebutton;
-    TextView todatetexttv,fromdatetexttv,totextet_to,showTotalamt_tv;
-    int serid;
-    DatePickerDialog datePickerDialog;
-    String todateseries,fromdtseries,htdt,hfdt,gquery,fromdate_c_string,todate_c_string,quuerycalender;
+
+    private Dialog dialog,dialogcustomdate;
+    private ConnectionClass connectionClass;
+    private SimpleDateFormat df,dff;
+    private GridView gridview;
+    private List<Map<String, String>> data = null;
+    private Connection con;
+    private SimpleAdapter ADA;
+    private ImageView search_closebutton;
+    private TextView todatetexttv,fromdatetexttv,totextet_to,showTotalamt_tv;
+    private int serid;
+    private DatePickerDialog datePickerDialog;
+    private String todateseries,fromdtseries,htdt,hfdt,gquery,fromdate_c_string,todate_c_string,quuerycalender;
+    private Toolbar toolbar;
+    private SearchView searchView_customer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sale_report);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        connectionClass = new ConnectionClass(getApplicationContext());
 
+        find_View_IdS();
+        events();
+
+    }
+
+    private void find_View_IdS() {
+        toolbar = findViewById(R.id.toolbar);
+        connectionClass = new ConnectionClass(getApplicationContext());
         gridview = findViewById(R.id.gridviewsalehyead);
         search_closebutton=findViewById(R.id.search_closebutton);
-        final SearchView searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
+        searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
         todatetexttv=findViewById(R.id.to_date_textview);
         totextet_to=findViewById(R.id.to_textview);
         fromdatetexttv=findViewById(R.id.from_date_textview);
-          serid = Integer.parseInt(getIntent().getStringExtra("serid"));
-          todateseries=getIntent().getStringExtra("todt");
-          fromdtseries=getIntent().getStringExtra("fdt");
-           hfdt=getIntent().getStringExtra("hfdt");
-           htdt=getIntent().getStringExtra("htdt");
-          showTotalamt_tv=findViewById(R.id.show_total_amt_head);
-       // Toast.makeText(this, ""+hfdt+htdt, Toast.LENGTH_SHORT).show();
+        serid = Integer.parseInt(getIntent().getStringExtra("serid"));
+        todateseries=getIntent().getStringExtra("todt");
+        fromdtseries=getIntent().getStringExtra("fdt");
+        hfdt=getIntent().getStringExtra("hfdt");
+        htdt=getIntent().getStringExtra("htdt");
+        showTotalamt_tv=findViewById(R.id.show_total_amt_head);
+        // Toast.makeText(this, ""+hfdt+htdt, Toast.LENGTH_SHORT).show();
 
-          setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
+    }
+    private void events() {
         ggeatdataforgrid();
-
-
-        //start searchview *****************************
-
         searchView_customer.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -96,15 +104,12 @@ public class SaleReportActivity extends AppCompatActivity {
                 search_closebutton.setVisibility(View.GONE);
                 ADA.getFilter().filter(newText);
 
-                                if (newText.toString().length() == 0){
-                                    search_closebutton.setVisibility(View.VISIBLE);
-                                }
+                if (newText.toString().length() == 0){
+                    search_closebutton.setVisibility(View.VISIBLE);
+                }
                 return false;
             }
         });
-//end search view##############################################3
-
-
     }
 
     private void ggeatdataforgrid() {

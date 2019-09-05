@@ -36,10 +36,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.mezyapps.reportanalyst.R;
 import com.mezyapps.reportanalyst.utils.SessionManager;
-import com.mezyapps.reportanalyst.network_class.ChnagePassword;
 import com.mezyapps.reportanalyst.network_class.ConnectionClass;
-import com.mezyapps.reportanalyst.network_class.IPSettingPageList;
-import com.mezyapps.reportanalyst.network_class.LicenseSession;
+import com.mezyapps.reportanalyst.utils.LicenseSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,182 +52,99 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
-    ImageView nextdate,previousdate,calenderr_btn;
-    TextView todatetexttv,fromdatetexttv,totextet_to;
-    Calendar c,ccc;
-    String  formattedDate;
-    SimpleDateFormat df,dff,nextandprevious,nextandpreviousformt;
-    ConnectionClass connectionClass;
-    DatePickerDialog datePickerDialog;
-    TextView saletotal_textview,purchase_total_textview;
-    int SERIESIDD;
-    String fmdt,todt;
-    Dialog dialog,dialogcustomdate;
-    String fromdate_c_string,todate_c_string,quuerycalender;
-    Connection con;
-    String satus;
-    String status_check;
-    SessionManager sessionManager;
-    SQLiteDatabase db;
-    String stringlicense,stringmac;
-    SharedPreferences pref;
-    String stratdate;
-    LicenseSession licenseSession;
-    TextView customerledgertv,supplierledgertv;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private ImageView nextdate, previousdate, calenderr_btn;
+    private TextView todatetexttv, fromdatetexttv, totextet_to;
+    private Calendar c, ccc;
+    private String formattedDate;
+    private SimpleDateFormat df, dff, nextandprevious, nextandpreviousformt;
+    private ConnectionClass connectionClass;
+    private DatePickerDialog datePickerDialog;
+    private TextView saletotal_textview, purchase_total_textview;
+    private int SERIESIDD;
+    private String fmdt, todt;
+    private Dialog dialog, dialogcustomdate;
+    private String fromdate_c_string, todate_c_string, quuerycalender;
+    private Connection con;
+    private String satus;
+    private String status_check;
+    private SessionManager sessionManager;
+    private SQLiteDatabase db;
+    private String stringlicense, stringmac;
+    private SharedPreferences pref;
+    private String stratdate;
+    private LicenseSession licenseSession;
+    private TextView customerledgertv, supplierledgertv;
+    private DrawerLayout drawerLayout;
+    private NavigationView navigationView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-         pref = this.getSharedPreferences("CON", Context.MODE_PRIVATE);
-        String print= pref.getString("print","");
-        if (print != ""){
+
+
+        find_View_IdS();
+        callConnection();
+        events();
+
+    }
+
+    private void find_View_IdS() {
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        fromdatetexttv = findViewById(R.id.datefromview_textview);
+        todatetexttv = findViewById(R.id.datetoview_textview);
+        nextdate = findViewById(R.id.next_date);
+        previousdate = findViewById(R.id.previosdate);
+        saletotal_textview = findViewById(R.id.saletotalamt_tv);
+        purchase_total_textview = findViewById(R.id.purchasetotalamt_tv);
+        totextet_to = findViewById(R.id.to_tetxt_textview);
+        toolbar =findViewById(R.id.toolbar);
+        customerledgertv = findViewById(R.id.customerledgertotal);
+        supplierledgertv = findViewById(R.id.supplierledgertotal);
+        drawerLayout=findViewById(R.id.drawer_layout);
+
+
+
+        pref = this.getSharedPreferences("CON", Context.MODE_PRIVATE);
+        String print = pref.getString("print", "");
+        if (print != "") {
             this.setTitle(print);
         }
 
-
         db = openOrCreateDatabase("MY_INVOICE", Context.MODE_PRIVATE, null);
-//        db.execSQL("CREATE TABLE IF NOT EXISTS CON_TABLE(id INTEGER PRIMARY KEY AUTOINCREMENT,con_ip VARCHAR,db_name VARCHAR,username VARCHAR,password VARCHAR)");
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        customerledgertv=findViewById(R.id.customerledgertotal);
-        supplierledgertv=findViewById(R.id.supplierledgertotal);
         connectionClass = new ConnectionClass(MainActivity.this);
-
-        licenseSession=new LicenseSession(getApplicationContext());
+        licenseSession = new LicenseSession(getApplicationContext());
         licenseSession.checkLogin();
-        // get user data from session
         HashMap<String, String> user = licenseSession.getUserDetails();
         stringlicense = user.get(LicenseSession.NAM);
         stringmac = user.get(LicenseSession.password);
+
         Cursor c1 = db.rawQuery("SELECT * FROM SEVEN_DAYS ", null);
         if (c1 != null && c1.getCount() > 0) {
             sevendaystrial();
-           }else {
+        } else {
             checkConnection();
         }
-
-
-
-
-
-//        Cursor c = db.rawQuery("SELECT * FROM CON_TABLE ", null);
-//        if (c != null && c.getCount() > 0) {
-//           // Toast.makeText(this, "Please Add Connection Setting", Toast.LENGTH_SHORT).show();
-//            if (c.moveToFirst()) {
-//
-//                   String iip=c.getString(c.getColumnIndex("con_ip"));
-//                    String dbb=c.getString(c.getColumnIndex("db_name"));
-//                    String uss=c.getString(c.getColumnIndex("username"));
-//                    String pss=c.getString(c.getColumnIndex("password"));
-//                    pref.edit().putString("ip",iip).apply();
-//                    pref.edit().putString("db",dbb).apply();
-//                pref.edit().putString("us",uss).apply();
-//                pref.edit().putString("ps",pss).apply();
-//                pref.edit().commit();
-//                   // connectionClass.setIpAddress(iip,dbb,uss,pss);
-//
-//
-//            }
-//        }else{
-//            Toast.makeText(this, "Please Add Connection Setting", Toast.LENGTH_SHORT).show();
-//
-//        }
-        sessionManager=new SessionManager(getApplicationContext());
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        sessionManager = new SessionManager(getApplicationContext());
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        fromdatetexttv=findViewById(R.id.datefromview_textview);
-        todatetexttv=findViewById(R.id.datetoview_textview);
-        nextdate=findViewById(R.id.next_date);
-        previousdate=findViewById(R.id.previosdate);
-        saletotal_textview=findViewById(R.id.saletotalamt_tv);
-        purchase_total_textview=findViewById(R.id.purchasetotalamt_tv);
-        totextet_to=findViewById(R.id.to_tetxt_textview);
-
-
-        //start series date**********************
-        try {
-            con= connectionClass.CONN();
-            if (con == null) {
-                Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show();
-            } else {
-                String query = "select  SERIESID,FROMDT,TODT from SERIESMASTER where IS_DEFAULT='Y'";
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(query);
-
-                if(rs.next())
-                {
-
-                     fmdt=  rs.getString("FROMDT").replaceAll("/","-");
-                     todt=  rs.getString("TODT").replaceAll("/","-");
-                    SERIESIDD=rs.getInt("SERIESID");
-                    todatetexttv.setText(todt);
-                    fromdatetexttv.setText(fmdt);
-
-                   // Toast.makeText(this, ""+SERIESIDD, Toast.LENGTH_SHORT).show();
-
-                    try {
-                            String quuery = "SELECT (SELECT SUM(TOTALBILLAMT) FROM SALHEAD_VIEW WHERE SERIESID="+SERIESIDD+") AS SALETOTAL, " +
-                                    ""+"(SELECT SUM(TOTALBILLAMT) FROM PURHEAD_VIEW WHERE SERIESID="+SERIESIDD+") AS PURTOTAL, " +
-                                    "(SELECT SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_DR' AND SERIESID="+SERIESIDD+") AS CBALAMT," +
-                                    "(SELECT -SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_CR' AND SERIESID="+SERIESIDD+") AS SBALAMT";
-                            Statement sstmt = con.createStatement();
-                            ResultSet rss = sstmt.executeQuery(quuery);
-                            if(rss.next())
-                            {
-                                String saletotal= String.valueOf(rss.getBigDecimal("SALETOTAL"));
-                                String pertotal= String.valueOf(rss.getBigDecimal("PURTOTAL"));
-                                String CBALAMT= String.valueOf(rss.getBigDecimal("CBALAMT"));
-                                String SBALAMT= String.valueOf(rss.getBigDecimal("SBALAMT"));
-                                saletotal_textview.setText(saletotal);
-                                purchase_total_textview.setText(pertotal);
-                                customerledgertv.setText(CBALAMT);
-                                supplierledgertv.setText(SBALAMT);
-                               // Toast.makeText(this, ""+saletotal+","+pertotal, Toast.LENGTH_SHORT).show();
-                            }
-                    }
-                    catch (Exception ex)
-                    {
-                        Toast.makeText(this, "Exceptions", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                else
-                {
-                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(this, "Exceptions", Toast.LENGTH_SHORT).show();
-
-        }
-
-        //ens series date################################
-
-
-
-
-//        previous dtae and next date start*********************************************
-
         ccc = Calendar.getInstance();
-           nextandprevious = new SimpleDateFormat("dd-MM-yyyy");
+        nextandprevious = new SimpleDateFormat("dd-MM-yyyy");
         nextandpreviousformt = new SimpleDateFormat("yyyy/MM/dd");
         formattedDate = nextandpreviousformt.format(ccc.getTime());
+        calenderr_btn = findViewById(R.id.calender_image_btn);
 
-//        currentdateviewer.setText(formattedDate);
-
-
+    }
+    private void events() {
         previousdate.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -244,8 +159,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 fromdatetexttv.setText(nextandprevious.format(ccc.getTime()));
                 todatetexttv.setVisibility(View.GONE);
                 totextet_to.setVisibility(View.GONE);
-                getcalenderwisedata(formattedDate,"");
-                SERIESIDD=0;
+                getcalenderwisedata(formattedDate, "");
+                SERIESIDD = 0;
             }
         });
 
@@ -263,39 +178,82 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
                 todatetexttv.setText("");
                 todatetexttv.setVisibility(View.GONE);
                 totextet_to.setVisibility(View.GONE);
-                getcalenderwisedata(formattedDate,"");
-                SERIESIDD=0;
+                getcalenderwisedata(formattedDate, "");
+                SERIESIDD = 0;
 
             }
         });
-//    previous dtae and next date end**************************************************
-
-//  start  calender button task **********************************************
-
-        calenderr_btn=findViewById(R.id.calender_image_btn);
         calenderr_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              dialog = new Dialog(MainActivity.this);
+                dialog = new Dialog(MainActivity.this);
                 dialog.setContentView(R.layout.calenderlist_for_main);
                 dialog.show();
-                SERIESIDD=0;
+                SERIESIDD = 0;
             }
         });
-//       end calender button task *************************************************
     }
+    private void callConnection() {
 
+        //start series date**********************
+        try {
+            con = connectionClass.CONN();
+            if (con == null) {
+                Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show();
+            } else {
+                String query = "select  SERIESID,FROMDT,TODT from SERIESMASTER where IS_DEFAULT='Y'";
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+
+                if (rs.next()) {
+
+                    fmdt = rs.getString("FROMDT").replaceAll("/", "-");
+                    todt = rs.getString("TODT").replaceAll("/", "-");
+                    SERIESIDD = rs.getInt("SERIESID");
+                    todatetexttv.setText(todt);
+                    fromdatetexttv.setText(fmdt);
+
+                    // Toast.makeText(this, ""+SERIESIDD, Toast.LENGTH_SHORT).show();
+
+                    try {
+                        String quuery = "SELECT (SELECT SUM(TOTALBILLAMT) FROM SALHEAD_VIEW WHERE SERIESID=" + SERIESIDD + ") AS SALETOTAL, " +
+                                "" + "(SELECT SUM(TOTALBILLAMT) FROM PURHEAD_VIEW WHERE SERIESID=" + SERIESIDD + ") AS PURTOTAL, " +
+                                "(SELECT SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_DR' AND SERIESID=" + SERIESIDD + ") AS CBALAMT," +
+                                "(SELECT -SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_CR' AND SERIESID=" + SERIESIDD + ") AS SBALAMT";
+                        Statement sstmt = con.createStatement();
+                        ResultSet rss = sstmt.executeQuery(quuery);
+                        if (rss.next()) {
+                            String saletotal = String.valueOf(rss.getBigDecimal("SALETOTAL"));
+                            String pertotal = String.valueOf(rss.getBigDecimal("PURTOTAL"));
+                            String CBALAMT = String.valueOf(rss.getBigDecimal("CBALAMT"));
+                            String SBALAMT = String.valueOf(rss.getBigDecimal("SBALAMT"));
+                            saletotal_textview.setText(saletotal);
+                            purchase_total_textview.setText(pertotal);
+                            customerledgertv.setText(CBALAMT);
+                            supplierledgertv.setText(SBALAMT);
+                            // Toast.makeText(this, ""+saletotal+","+pertotal, Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception ex) {
+                        Toast.makeText(this, "Exceptions", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();
+                }
+            }
+        } catch (Exception ex) {
+            Toast.makeText(this, "Exceptions", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
 
     public void stockOutstanding(View view) {
         Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
-//    Intent intent=new Intent(getApplicationContext(),StockReportActivity.class);
-//    intent.putExtra("serid",SERIESIDD);
-//    startActivity(intent);
     }
 
 
     public void purchaseReport(View view) {
-        con= connectionClass.CONN();
+        con = connectionClass.CONN();
         if (con == null) {
             Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show();
         } else {
@@ -308,8 +266,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             startActivity(intent);
         }
     }
+
     public void supplierledger(View view) {
-        con= connectionClass.CONN();
+        con = connectionClass.CONN();
         if (con == null) {
             Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show();
         } else {
@@ -324,7 +283,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
     }
 
     public void customerledger(View view) {
-        con= connectionClass.CONN();
+        con = connectionClass.CONN();
         if (con == null) {
             Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show();
         } else {
@@ -340,7 +299,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
 
     public void saleReport(View view) {
-        con= connectionClass.CONN();
+        con = connectionClass.CONN();
         if (con == null) {
             Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show();
         } else {
@@ -357,9 +316,8 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -381,16 +339,15 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            startActivity(new Intent(MainActivity.this, IPSettingPageList.class));
+            startActivity(new Intent(MainActivity.this, IPSettingPageListActivity.class));
             finish();
             return true;
-        }else if ((id == R.id.action_logout)){
+        } else if ((id == R.id.action_logout)) {
             sessionManager.logoutUser();
             finish();
             return true;
-        }
-        else if ((id == R.id.item1)){
-            startActivity(new Intent(MainActivity.this, ChnagePassword.class));
+        } else if ((id == R.id.item1)) {
+            startActivity(new Intent(MainActivity.this, ChangePasswordActivity.class));
             return true;
         }
 
@@ -406,13 +363,13 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_share) {
-            Intent intent=new Intent(Intent.ACTION_SEND);
+            Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            String subject="Mezyapps";
-            String bodymsg="Application Link";
-            intent.putExtra(Intent.EXTRA_SUBJECT,subject);
-            intent.putExtra(Intent.EXTRA_TEXT,bodymsg);
-            startActivity(Intent.createChooser(intent,"Mezyapps"));
+            String subject = "Mezyapps";
+            String bodymsg = "Application Link";
+            intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+            intent.putExtra(Intent.EXTRA_TEXT, bodymsg);
+            startActivity(Intent.createChooser(intent, "Mezyapps"));
         } else if (id == R.id.nav_send) {
             String url = "http://jmd-infotech.com/";
             Intent i = new Intent(Intent.ACTION_VIEW);
@@ -425,9 +382,9 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         return true;
     }
 
-//start calender dialog list**************************************
+    //start calender dialog list**************************************
     public void todaydatemethoddd(View view) {
-       df = new SimpleDateFormat("yyyy/MM/dd");
+        df = new SimpleDateFormat("yyyy/MM/dd");
         dff = new SimpleDateFormat("dd-MM-yyyy");
         String currentDateandTime = df.format(new Date());
         fromdatetexttv.setVisibility(View.VISIBLE);
@@ -435,10 +392,10 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         todatetexttv.setText("");
         todatetexttv.setVisibility(View.GONE);
         totextet_to.setVisibility(View.GONE);
-        getcalenderwisedata(currentDateandTime,"");
+        getcalenderwisedata(currentDateandTime, "");
         dialog.hide();
-        SERIESIDD=0;
-      }
+        SERIESIDD = 0;
+    }
 
     public void yesterdaydatemethddd(View view) {
         dff = new SimpleDateFormat("dd-MM-yyyy");
@@ -447,27 +404,27 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         c.add(Calendar.DATE, -1);
         fromdatetexttv.setVisibility(View.VISIBLE);
         fromdatetexttv.setText(dff.format(c.getTime()));
-        String yseterdy=df.format(c.getTime());
+        String yseterdy = df.format(c.getTime());
         todatetexttv.setVisibility(View.GONE);
         todatetexttv.setText("");
         totextet_to.setVisibility(View.GONE);
-        getcalenderwisedata(yseterdy,"");
+        getcalenderwisedata(yseterdy, "");
         dialog.hide();
-        SERIESIDD=0;
+        SERIESIDD = 0;
     }
 
     public void thisweekdatemethoddd(View view) {
         dff = new SimpleDateFormat("dd-MM-yyyy");
         df = new SimpleDateFormat("yyyy/MM/dd", Locale.getDefault());
         // Get calendar set to current date and time
-         c = Calendar.getInstance();
+        c = Calendar.getInstance();
 
 // Set the calendar to monday of the current week
         c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 
 // Print dates of the current week starting on Monday
 
-        String startDate, endDate ;
+        String startDate, endDate;
         startDate = df.format(c.getTime());
         fromdatetexttv.setVisibility(View.VISIBLE);
         fromdatetexttv.setText(dff.format(c.getTime()));
@@ -477,51 +434,52 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         todatetexttv.setText(dff.format(c.getTime()));
 
         totextet_to.setVisibility(View.VISIBLE);
-        getcalenderwisedata(startDate,endDate);
+        getcalenderwisedata(startDate, endDate);
         dialog.hide();
-        SERIESIDD=0;
+        SERIESIDD = 0;
     }
 
     public void thismonthmethoddd(View view) {
         dff = new SimpleDateFormat("dd-MM-yyyy");
         df = new SimpleDateFormat("yyyy/MM/dd");
-       c = Calendar.getInstance();   // this takes current date
+        c = Calendar.getInstance();   // this takes current date
         c.set(Calendar.DAY_OF_MONTH, 1);
-        String startDate, endDate ;
+        String startDate, endDate;
         fromdatetexttv.setVisibility(View.VISIBLE);
         fromdatetexttv.setText(dff.format(c.getTime()));
-        startDate=df.format(c.getTime());
+        startDate = df.format(c.getTime());
         c.add(Calendar.MONTH, 1);
         c.add(Calendar.DATE, -1);
         todatetexttv.setVisibility(View.VISIBLE);
         todatetexttv.setText(dff.format(c.getTime()));
-        endDate=df.format(c.getTime());
+        endDate = df.format(c.getTime());
         totextet_to.setVisibility(View.VISIBLE);
-        getcalenderwisedata(startDate,endDate);
+        getcalenderwisedata(startDate, endDate);
         dialog.hide();
-        SERIESIDD=0;
+        SERIESIDD = 0;
 
     }
+
     public void lastmonthmethoddd(View view) {
         dff = new SimpleDateFormat("dd-MM-yyyy");
-        String startDate, endDate ;
+        String startDate, endDate;
         df = new SimpleDateFormat("yyyy/MM/dd");
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DATE, 1);
         cal.add(Calendar.DAY_OF_MONTH, -1);
         Date lastDateOfPreviousMonth = cal.getTime();
-        endDate=df.format(lastDateOfPreviousMonth);
+        endDate = df.format(lastDateOfPreviousMonth);
         todatetexttv.setVisibility(View.VISIBLE);
         todatetexttv.setText(dff.format(lastDateOfPreviousMonth));
         cal.set(Calendar.DATE, 1);
         fromdatetexttv.setVisibility(View.VISIBLE);
         Date firstDateOfPreviousMonth = cal.getTime();
         fromdatetexttv.setText(dff.format(firstDateOfPreviousMonth));
-        startDate=df.format(firstDateOfPreviousMonth);
+        startDate = df.format(firstDateOfPreviousMonth);
         totextet_to.setVisibility(View.VISIBLE);
-        getcalenderwisedata(startDate,endDate);
+        getcalenderwisedata(startDate, endDate);
         dialog.hide();
-        SERIESIDD=0;
+        SERIESIDD = 0;
     }
 //    public void thisquartermethoddd(View view) {
 //        Toast.makeText(this, "Coming Soon", Toast.LENGTH_SHORT).show();
@@ -535,7 +493,7 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
         todatetexttv.setVisibility(View.VISIBLE);
         todatetexttv.setText(todt);
         totextet_to.setVisibility(View.VISIBLE);
-        con= connectionClass.CONN();
+        con = connectionClass.CONN();
         if (con == null) {
             Toast.makeText(this, "Connection Error", Toast.LENGTH_SHORT).show();
         } else {
@@ -558,175 +516,171 @@ public class MainActivity extends AppCompatActivity  implements NavigationView.O
             getcalenderwisedata(dhhftdt, dhhtdt);
         }
         dialog.hide();
-        SERIESIDD=0;
+        SERIESIDD = 0;
     }
-
 
 
     public void customdatemethoddd(View view) {
         dialogcustomdate = new Dialog(MainActivity.this);
         dialogcustomdate.setContentView(R.layout.calenderfor_from_datetodate);
 
-                LinearLayout tolineardate=dialogcustomdate.findViewById(R.id.btnTodateclick);
-                LinearLayout fromlineardate=dialogcustomdate.findViewById(R.id.btnFromdatreclick);
-                final EditText fromdatemain=dialogcustomdate.findViewById(R.id.fromdate_main);
-                final EditText todatemain=dialogcustomdate.findViewById(R.id.mainTodate);
-                Button btn_from_to_date_main=dialogcustomdate.findViewById(R.id.btn_from_to_date_main);
+        LinearLayout tolineardate = dialogcustomdate.findViewById(R.id.btnTodateclick);
+        LinearLayout fromlineardate = dialogcustomdate.findViewById(R.id.btnFromdatreclick);
+        final EditText fromdatemain = dialogcustomdate.findViewById(R.id.fromdate_main);
+        final EditText todatemain = dialogcustomdate.findViewById(R.id.mainTodate);
+        Button btn_from_to_date_main = dialogcustomdate.findViewById(R.id.btn_from_to_date_main);
 
-                fromlineardate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // calender class's instance and get current date , month and year from calender
-                        final Calendar c = Calendar.getInstance();
-                        int mYear = c.get(Calendar.YEAR); // current year
-                        int mMonth = c.get(Calendar.MONTH); // current month
-                        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                        // date picker dialog
-                        datePickerDialog = new DatePickerDialog(MainActivity.this,
-                                new DatePickerDialog.OnDateSetListener() {
+        fromlineardate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(MainActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
 
-                                    @Override
-                                    public void onDateSet(DatePicker view, int year,
-                                                          int monthOfYear, int dayOfMonth) {
-                                        // set day of month , month and year value in the edit text
-                                        fromdatetexttv.setVisibility(View.VISIBLE);
-                                        totextet_to.setVisibility(View.VISIBLE);
-                                        todatetexttv.setText("");
-                                        fromdatetexttv.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                                        fromdatemain.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                                        String monthString = String.valueOf(monthOfYear + 1);
-                                        if (monthString.length() == 1) {
-                                            monthString = "0" + monthString;
-                                        }
-                                        String dayString = String.valueOf(dayOfMonth);
-                                        if (dayString.length() == 1) {
-                                            dayString = "0" + dayString;
-                                        }
-                                        fromdate_c_string=year + "/" + monthString + "/" + dayString;
-                                    }
-                                }, mYear, mMonth, mDay);
-                        datePickerDialog.show();
-                        SERIESIDD=0;
-                    }
-                });
-
-
-                tolineardate.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // calender class's instance and get current date , month and year from calender
-                        df = new SimpleDateFormat("yyyy/MM/dd");
-                        final Calendar c = Calendar.getInstance();
-                        int mYear = c.get(Calendar.YEAR); // current year
-                        int mMonth = c.get(Calendar.MONTH); // current month
-                        int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
-                        // date picker dialog
-                        datePickerDialog = new DatePickerDialog(MainActivity.this,
-                                new DatePickerDialog.OnDateSetListener() {
-
-                                    @Override
-                                    public void onDateSet(DatePicker view, int year,
-                                                          int monthOfYear, int dayOfMonth) {
-                                        // set day of month , month and year value in the edit text
-                                        todatetexttv.setVisibility(View.VISIBLE);
-                                        todatemain.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                                        todatetexttv.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                                        String monthString = String.valueOf(monthOfYear + 1);
-                                        if (monthString.length() == 1) {
-                                            monthString = "0" + monthString;
-                                        }
-                                        String dayString = String.valueOf(dayOfMonth);
-                                        if (dayString.length() == 1) {
-                                            dayString = "0" + dayString;
-                                        }
-                                        todate_c_string=year + "/" + monthString + "/" + dayString;
-                                    }
-                                }, mYear, mMonth, mDay);
-                        datePickerDialog.show();
-                        SERIESIDD=0;
-                    }
-                });
-
-                btn_from_to_date_main.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        getcalenderwisedata(fromdate_c_string,todate_c_string);
-                        dialogcustomdate.hide();
-                        SERIESIDD=0;
-                    }
-                });
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                fromdatetexttv.setVisibility(View.VISIBLE);
+                                totextet_to.setVisibility(View.VISIBLE);
+                                todatetexttv.setText("");
+                                fromdatetexttv.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                fromdatemain.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                String monthString = String.valueOf(monthOfYear + 1);
+                                if (monthString.length() == 1) {
+                                    monthString = "0" + monthString;
+                                }
+                                String dayString = String.valueOf(dayOfMonth);
+                                if (dayString.length() == 1) {
+                                    dayString = "0" + dayString;
+                                }
+                                fromdate_c_string = year + "/" + monthString + "/" + dayString;
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+                SERIESIDD = 0;
+            }
+        });
 
 
-dialog.hide();
+        tolineardate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // calender class's instance and get current date , month and year from calender
+                df = new SimpleDateFormat("yyyy/MM/dd");
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR); // current year
+                int mMonth = c.get(Calendar.MONTH); // current month
+                int mDay = c.get(Calendar.DAY_OF_MONTH); // current day
+                // date picker dialog
+                datePickerDialog = new DatePickerDialog(MainActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                // set day of month , month and year value in the edit text
+                                todatetexttv.setVisibility(View.VISIBLE);
+                                todatemain.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                todatetexttv.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
+                                String monthString = String.valueOf(monthOfYear + 1);
+                                if (monthString.length() == 1) {
+                                    monthString = "0" + monthString;
+                                }
+                                String dayString = String.valueOf(dayOfMonth);
+                                if (dayString.length() == 1) {
+                                    dayString = "0" + dayString;
+                                }
+                                todate_c_string = year + "/" + monthString + "/" + dayString;
+                            }
+                        }, mYear, mMonth, mDay);
+                datePickerDialog.show();
+                SERIESIDD = 0;
+            }
+        });
+
+        btn_from_to_date_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getcalenderwisedata(fromdate_c_string, todate_c_string);
+                dialogcustomdate.hide();
+                SERIESIDD = 0;
+            }
+        });
+
+
+        dialog.hide();
         dialogcustomdate.show();
     }
-//    call get data calenderlist
-    private void getcalenderwisedata(String fdate,String tdate) {
 
-        if (fdate != "" && tdate != ""){
-            quuerycalender = "SELECT (SELECT SUM(TOTALBILLAMT) FROM SALHEAD_VIEW WHERE VCHDT_Y_M_D BETWEEN '"+fdate+"' AND '"+tdate+"') AS SALETOTAL, (SELECT SUM(TOTALBILLAMT) FROM PURHEAD_VIEW WHERE VCHDT_Y_M_D BETWEEN '"+fdate+"' AND '"+tdate+"') AS PURTOTAL ,(SELECT SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_DR' AND VCHDT_Y_M_D BETWEEN '"+fdate+"' AND '"+tdate+"') AS CBALAMT,(SELECT -SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_CR' AND VCHDT_Y_M_D BETWEEN '"+fdate+"' AND '"+tdate+"') AS SBALAMT";
+    //    call get data calenderlist
+    private void getcalenderwisedata(String fdate, String tdate) {
 
-        }else {
-            quuerycalender = "SELECT (SELECT SUM(TOTALBILLAMT) FROM SALHEAD_VIEW WHERE VCHDT_Y_M_D ='"+fdate+"' ) AS SALETOTAL, (SELECT SUM(TOTALBILLAMT) FROM PURHEAD_VIEW WHERE VCHDT_Y_M_D= '"+fdate+"') AS PURTOTAL, (SELECT SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_DR' AND VCHDT_Y_M_D = '"+fdate+"') AS CBALAMT,(SELECT -SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_CR' AND VCHDT_Y_M_D = '"+fdate+"') AS SBALAMT ";
+        if (fdate != "" && tdate != "") {
+            quuerycalender = "SELECT (SELECT SUM(TOTALBILLAMT) FROM SALHEAD_VIEW WHERE VCHDT_Y_M_D BETWEEN '" + fdate + "' AND '" + tdate + "') AS SALETOTAL, (SELECT SUM(TOTALBILLAMT) FROM PURHEAD_VIEW WHERE VCHDT_Y_M_D BETWEEN '" + fdate + "' AND '" + tdate + "') AS PURTOTAL ,(SELECT SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_DR' AND VCHDT_Y_M_D BETWEEN '" + fdate + "' AND '" + tdate + "') AS CBALAMT,(SELECT -SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_CR' AND VCHDT_Y_M_D BETWEEN '" + fdate + "' AND '" + tdate + "') AS SBALAMT";
+
+        } else {
+            quuerycalender = "SELECT (SELECT SUM(TOTALBILLAMT) FROM SALHEAD_VIEW WHERE VCHDT_Y_M_D ='" + fdate + "' ) AS SALETOTAL, (SELECT SUM(TOTALBILLAMT) FROM PURHEAD_VIEW WHERE VCHDT_Y_M_D= '" + fdate + "') AS PURTOTAL, (SELECT SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_DR' AND VCHDT_Y_M_D = '" + fdate + "') AS CBALAMT,(SELECT -SUM(BALAMT) FROM VCHDET_VIEW WHERE GRP_INFO='SUND_CR' AND VCHDT_Y_M_D = '" + fdate + "') AS SBALAMT ";
 
         }
 
 
         try {
-            con= connectionClass.CONN();
+            con = connectionClass.CONN();
             Statement sstmt = con.createStatement();
             ResultSet rss = sstmt.executeQuery(quuerycalender);
-            if(rss.next())
-            {
-                String saletotal= String.valueOf(rss.getBigDecimal("SALETOTAL"));
-                String pertotal= String.valueOf(rss.getBigDecimal("PURTOTAL"));
-                String SBALAMT= String.valueOf(rss.getBigDecimal("SBALAMT"));
-                String CBALAMT= String.valueOf(rss.getBigDecimal("CBALAMT"));
+            if (rss.next()) {
+                String saletotal = String.valueOf(rss.getBigDecimal("SALETOTAL"));
+                String pertotal = String.valueOf(rss.getBigDecimal("PURTOTAL"));
+                String SBALAMT = String.valueOf(rss.getBigDecimal("SBALAMT"));
+                String CBALAMT = String.valueOf(rss.getBigDecimal("CBALAMT"));
 
-                if (saletotal.equals("null")){
+                if (saletotal.equals("null")) {
                     findViewById(R.id.ruppees_symoble_sale).setVisibility(View.GONE);
                     saletotal_textview.setText("No Data Available");
-                }else {
+                } else {
                     findViewById(R.id.ruppees_symoble_sale).setVisibility(View.VISIBLE);
                     saletotal_textview.setText(saletotal);
                 }
-                if (pertotal.equals("null")){
-                   findViewById(R.id.ruppees_symoble_perchase).setVisibility(View.GONE);
+                if (pertotal.equals("null")) {
+                    findViewById(R.id.ruppees_symoble_perchase).setVisibility(View.GONE);
                     purchase_total_textview.setText("No Data Available");
-                }else {
+                } else {
                     findViewById(R.id.ruppees_symoble_perchase).setVisibility(View.VISIBLE);
                     purchase_total_textview.setText(pertotal);
                 }
-                if (SBALAMT.equals("null")){
+                if (SBALAMT.equals("null")) {
                     findViewById(R.id.ruppees_symoble_sale).setVisibility(View.GONE);
                     supplierledgertv.setText("No Data Available");
-                }else {
+                } else {
                     findViewById(R.id.ruppees_symoble_sale).setVisibility(View.VISIBLE);
                     supplierledgertv.setText(SBALAMT);
                 }
-                if (CBALAMT.equals("null")){
+                if (CBALAMT.equals("null")) {
                     findViewById(R.id.ruppees_symoble_sale).setVisibility(View.GONE);
                     customerledgertv.setText("No Data Available");
-                }else {
+                } else {
                     findViewById(R.id.ruppees_symoble_sale).setVisibility(View.VISIBLE);
                     customerledgertv.setText(CBALAMT);
                 }
 
                 // Toast.makeText(this, ""+saletotal+","+pertotal, Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Toast.makeText(this, "Exceptions", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-
     //end calender dialoglist#################################################3
 //    check mac statuss start***************************
     protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;
@@ -734,43 +688,42 @@ dialog.hide();
             return false;
         }
     }
-    public void checkConnection(){
-        if(isOnline()){
+
+    public void checkConnection() {
+        if (isOnline()) {
 
             macMethod();
 
-        }else{
+        } else {
 
             macStatus();
         }
     }
 
 
-
-
     private void macMethod() {
 
-        String url = "http://registermykenan.com/api.php?key="+ stringlicense;
+        String url = "http://registermykenan.com/api.php?key=" + stringlicense;
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new com.android.volley.Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
                     JSONObject jsonResponse = new JSONObject(response);
-                    String status=jsonResponse.toString().split("\\{|\\}")[1];
-                    String temst=status.toString().replaceAll(":",",").replaceAll("\"","");
+                    String status = jsonResponse.toString().split("\\{|\\}")[1];
+                    String temst = status.toString().replaceAll(":", ",").replaceAll("\"", "");
                     String[] namesList = temst.split(",");
-                    ArrayList<String> sss=new ArrayList<>();
-                    for (int i = 0; i < namesList.length; i++){
+                    ArrayList<String> sss = new ArrayList<>();
+                    for (int i = 0; i < namesList.length; i++) {
                         sss.add(namesList[i]);
 
                     }
-                    if (sss.contains(stringmac)){
-                        satus="true";
+                    if (sss.contains(stringmac)) {
+                        satus = "true";
                         macStatusupdate();
-                    }else {
-                        satus="false";
+                    } else {
+                        satus = "false";
                         macStatusupdate();
-                        startActivity(new Intent(MainActivity.this,  LincenseActivity.class));
+                        startActivity(new Intent(MainActivity.this, LincenseActivity.class));
                         finish();
                     }
                 } catch (JSONException e) {
@@ -792,6 +745,7 @@ dialog.hide();
         requestQueue.add(stringRequest);
 
     }
+
     private void macStatusupdate() {
 
         db.execSQL("UPDATE MAC  SET status ='" + satus + "' WHERE license ='" + stringlicense + "'");
@@ -803,18 +757,18 @@ dialog.hide();
         Cursor c1 = db.rawQuery("SELECT * FROM MAC ", null);
         if (c1.moveToFirst()) {
             do {
-                status_check=  c1.getString(c1.getColumnIndex("status"));
+                status_check = c1.getString(c1.getColumnIndex("status"));
             } while (c1.moveToNext());
 
             macMethod();
-        }else{
+        } else {
             //Toast.makeText(this, "test", Toast.LENGTH_SHORT).show();
         }
         c1.close();
-        if (status_check.equals("false")){
-            startActivity(new Intent(MainActivity.this,  LincenseActivity.class));
+        if (status_check.equals("false")) {
+            startActivity(new Intent(MainActivity.this, LincenseActivity.class));
             finish();
-        }else {
+        } else {
 
         }
 
@@ -822,12 +776,12 @@ dialog.hide();
 
 //    end mac
 
-    private void   sevendaystrial(){
+    private void sevendaystrial() {
         Cursor c1 = db.rawQuery("SELECT * FROM SEVEN_DAYS ", null);
         if (c1.moveToFirst()) {
             do {
 
-                stratdate=  c1.getString(c1.getColumnIndex("start_date"));
+                stratdate = c1.getString(c1.getColumnIndex("start_date"));
 
 
             } while (c1.moveToNext());
@@ -846,7 +800,7 @@ dialog.hide();
 
         long date = System.currentTimeMillis();
         SimpleDateFormat df = new SimpleDateFormat("yyyy MM dd");
-        String  end_date = df.format(date);
+        String end_date = df.format(date);
         String strend = end_date;
         String[] tempend;
         String delimiterend = " ";
@@ -865,9 +819,8 @@ dialog.hide();
         long differenceMillis = endDateMillis - startDateMillis;
         int daysDifference = (int) (differenceMillis / (1000 * 60 * 60 * 24));
         // eee.setText(Integer.toString(daysDifference));
-        if (daysDifference >= 5)
-        {
-            startActivity(new Intent(getApplicationContext(),LincenseActivity.class));
+        if (daysDifference >= 5) {
+            startActivity(new Intent(getApplicationContext(), LincenseActivity.class));
             // db.execSQL("DROP TABLE IF EXISTS SEVEN_DAYS");
             sessionManager.logoutUser();
             finish();

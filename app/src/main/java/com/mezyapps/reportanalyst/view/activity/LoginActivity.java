@@ -22,24 +22,31 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
-TextInputEditText textInputEditTextname,textInputEditTextpass;
-String user_id;
-SessionManager sessionManager;
 
-    ConectionAdmin connectionClass;
-    ProgressBar pbbar;
-    SQLiteDatabase db;
-    String pass;
-    String ASCII_VALUE;
+    private TextInputEditText textInputEditTextname, textInputEditTextpass;
+    private String user_id;
+    private SessionManager sessionManager;
+    private ConectionAdmin connectionClass;
+    private ProgressBar pbbar;
+    private SQLiteDatabase db;
+    private String pass;
+    private String ASCII_VALUE;
+    private Button login;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        find_View_IdS();
+        events();
+    }
+
+    private void find_View_IdS() {
         sessionManager = new SessionManager(getApplicationContext());
         textInputEditTextname = findViewById(R.id.ed_username_signin);
         textInputEditTextpass = findViewById(R.id.ed_user_pass_signin);
-        Button login = findViewById(R.id.btn_signin);
+        login = findViewById(R.id.btn_signin);
         db = openOrCreateDatabase("MY_INVOICE", Context.MODE_PRIVATE, null);
 
         // db.execSQL("CREATE TABLE IF NOT EXISTS CON_TABLE(id INTEGER PRIMARY KEY AUTOINCREMENT,con_ip VARCHAR,db_name VARCHAR,username VARCHAR,password VARCHAR)");
@@ -47,8 +54,6 @@ SessionManager sessionManager;
         connectionClass = new ConectionAdmin();
         pbbar = (ProgressBar) findViewById(R.id.pbbar);
         pbbar.setVisibility(View.GONE);
-
-
         HashMap<String, String> user = sessionManager.getUserDetails();
 //        if (user.get(SessionManager.KEY_NAME) == "aa"){
 //            startActivity(new Intent(LoginActivity.this,MainActivity.class));
@@ -63,17 +68,16 @@ SessionManager sessionManager;
 //            finish();
 //        }
 
-    //    }
+        //    }
 
+    }
 
-
-
-
+    private void events() {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 ASCII_VALUE="";
-                pass=textInputEditTextpass.getText().toString().trim();
+                ASCII_VALUE = "";
+                pass = textInputEditTextpass.getText().toString().trim();
 
 //                    //===========================================
 //                    for (int i = 0; i < pass.length(); i++)
@@ -85,18 +89,17 @@ SessionManager sessionManager;
 //                        ASCII_VALUE += String.valueOf(c);
 //                    }
 
-                DoLogin  doLogin = new DoLogin();
+                DoLogin doLogin = new DoLogin();
                 doLogin.execute("");
-                            }
+            }
         });
     }
 
-    public class DoLogin extends AsyncTask<String,String,String>
-    {
+    public class DoLogin extends AsyncTask<String, String, String> {
         String z = "";
         Boolean isSuccess = false;
 
-        String name=textInputEditTextname.getText().toString();
+        String name = textInputEditTextname.getText().toString();
 
         @Override
         protected void onPreExecute() {
@@ -106,20 +109,19 @@ SessionManager sessionManager;
         @Override
         protected void onPostExecute(String r) {
             pbbar.setVisibility(View.GONE);
-            Toast.makeText(LoginActivity.this,r,Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, r, Toast.LENGTH_SHORT).show();
 
-            if(isSuccess) {
-                Toast.makeText(LoginActivity.this,r,Toast.LENGTH_SHORT).show();
+            if (isSuccess) {
+                Toast.makeText(LoginActivity.this, r, Toast.LENGTH_SHORT).show();
             }
 
         }
 
         @Override
         protected String doInBackground(String... params) {
-            if(name.trim().equals("")|| pass.trim().equals(""))
+            if (name.trim().equals("") || pass.trim().equals(""))
                 z = "Please enter User Name and Password";
-            else
-            {
+            else {
                 try {
                     Connection con = connectionClass.CONNN();
                     if (con == null) {
@@ -129,25 +131,21 @@ SessionManager sessionManager;
                         Statement stmt = con.createStatement();
                         ResultSet rs = stmt.executeQuery(query);
 
-                        if(rs.next())
-                        {  String abbb=  String.valueOf(rs.getInt("USERID"));
-                            sessionManager.createLoginSession(name,abbb);
+                        if (rs.next()) {
+                            String abbb = String.valueOf(rs.getInt("USERID"));
+                            sessionManager.createLoginSession(name, abbb);
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                             z = "Successfuly";
-                            isSuccess=true;
+                            isSuccess = true;
 
-                        }
-                        else
-                        {
+                        } else {
                             z = "Invalid Usename Or Password";
                             isSuccess = false;
                         }
 
                     }
-                }
-                catch (Exception ex)
-                {
+                } catch (Exception ex) {
                     isSuccess = false;
                     z = "Exceptions";
                 }

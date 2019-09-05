@@ -33,37 +33,43 @@ import java.util.Map;
 
 public class SaleReportDetailActivity extends AppCompatActivity {
 
+    private ConnectionClass connectionClass;
+    private GridView gridview;
+    private List<Map<String, String>> data = null;
+    private SimpleAdapter ADA;
+    private ImageView search_closebutton;
+    private TextView to_date_tv, from_date_tv, to_text_tv, showTotalamt_tv, customenaeme;
+    private int groupid;
+    private String todateseries, fromdtseries, hhtdt, hhfdt, gquery;
+    private String cname;
+    private Toolbar toolbar;
+    private SearchView searchView_customer;
 
-    ConnectionClass connectionClass;
-
-    GridView gridview;
-    List<Map<String, String>> data = null;
-    SimpleAdapter ADA;
-    ImageView search_closebutton;
-    TextView to_date_tv,from_date_tv,to_text_tv,showTotalamt_tv,customenaeme;
-    int groupid;
-    String todateseries,fromdtseries,hhtdt,hhfdt,gquery;
-    String cname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sale_report_detail);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        connectionClass = new ConnectionClass(getApplicationContext());
 
+        find_View_IdS();
+        events();
+    }
+
+    private void find_View_IdS() {
+        toolbar = findViewById(R.id.toolbar);
+        connectionClass = new ConnectionClass(getApplicationContext());
         gridview = findViewById(R.id.gridviewsalehyeadsub);
-        search_closebutton=findViewById(R.id.search_closebutton);
-        final SearchView searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
-        to_date_tv=findViewById(R.id.to_date_textview);
-        to_text_tv=findViewById(R.id.to_textview);
-        from_date_tv=findViewById(R.id.from_date_textview);
+        search_closebutton = findViewById(R.id.search_closebutton);
+        searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
+        to_date_tv = findViewById(R.id.to_date_textview);
+        to_text_tv = findViewById(R.id.to_textview);
+        from_date_tv = findViewById(R.id.from_date_textview);
         groupid = Integer.parseInt(getIntent().getStringExtra("gid"));
-        cname=getIntent().getStringExtra("cname");
-        hhfdt=getIntent().getStringExtra("hfdt").trim();
-        hhtdt=getIntent().getStringExtra("htdt").trim();
-        customenaeme=findViewById(R.id.customenaeme);
+        cname = getIntent().getStringExtra("cname");
+        hhfdt = getIntent().getStringExtra("hfdt").trim();
+        hhtdt = getIntent().getStringExtra("htdt").trim();
+        customenaeme = findViewById(R.id.customenaeme);
         customenaeme.setText(cname);
-        showTotalamt_tv=findViewById(R.id.show_total_amt_head);
+        showTotalamt_tv = findViewById(R.id.show_total_amt_head);
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
@@ -73,10 +79,9 @@ public class SaleReportDetailActivity extends AppCompatActivity {
         }
 
         ggeatdataforgrid();
+    }
 
-
-        //start searchview *****************************
-
+    private void events() {
         searchView_customer.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -90,51 +95,45 @@ public class SaleReportDetailActivity extends AppCompatActivity {
                 search_closebutton.setVisibility(View.GONE);
                 ADA.getFilter().filter(newText);
 
-                if (newText.toString().length() == 0){
+                if (newText.toString().length() == 0) {
                     search_closebutton.setVisibility(View.VISIBLE);
                 }
                 return false;
             }
         });
-//end search view##############################################3
-
-
     }
 
     private void ggeatdataforgrid() {
-        //start customer and amt grid**************************************
-
-        if (hhtdt.length() != 0 && hhfdt.length() != 0)
-        {
+        if (hhtdt.length() != 0 && hhfdt.length() != 0) {
             to_date_tv.setText(hhtdt);
             from_date_tv.setText(hhfdt);
-            String s1=hhtdt;
+            String s1 = hhtdt;
             String[] parts1 = s1.split("-"); // escape .
             String datee1 = parts1[0];
             String month1 = parts1[1];
             String year1 = parts1[2];
-            String dhhtdt=year1+"/"+month1+"/"+datee1;
+            String dhhtdt = year1 + "/" + month1 + "/" + datee1;
 
-                String s=hhfdt;
-                String[] parts = s.split("-"); // escape .
-                String datee  = parts[0];
-                String month = parts[1];
-                String year = parts[2];
-                String dhhftdt=year+"/"+month+"/"+datee;
+            String s = hhfdt;
+            String[] parts = s.split("-"); // escape .
+            String datee = parts[0];
+            String month = parts[1];
+            String year = parts[2];
+            String dhhftdt = year + "/" + month + "/" + datee;
 
-            gquery = "SELECT ENTRYID, VCHDT,VCHNO,GROUPNAME,TOTALQTY ,TOTALBILLAMT AS AMT , (select SUM(TOTALBILLAMT) from SALHEAD_VIEW WHERE GROUPID="+groupid+" AND VCHDT_Y_M_D BETWEEN '"+dhhftdt+"' AND '"+dhhtdt+"') AS tAMT from SALHEAD_VIEW WHERE GROUPID="+groupid +"AND VCHDT_Y_M_D BETWEEN '"+dhhftdt+"' AND '"+dhhtdt+"'" ;
+            gquery = "SELECT ENTRYID, VCHDT,VCHNO,GROUPNAME,TOTALQTY ,TOTALBILLAMT AS AMT , (select SUM(TOTALBILLAMT) from SALHEAD_VIEW WHERE GROUPID=" + groupid + " AND VCHDT_Y_M_D BETWEEN '" + dhhftdt + "' AND '" + dhhtdt + "') AS tAMT from SALHEAD_VIEW WHERE GROUPID=" + groupid + "AND VCHDT_Y_M_D BETWEEN '" + dhhftdt + "' AND '" + dhhtdt + "'";
 
         } else {
             from_date_tv.setText(hhfdt);
             to_text_tv.setVisibility(View.GONE);
-            String s=hhfdt;
+            String s = hhfdt;
             String[] parts = s.split("-"); // escape .
-            String   datee= parts[0];
+            String datee = parts[0];
             String month = parts[1];
             String year = parts[2];
-            String dhhftdt=year+"/"+month+"/"+datee;
+            String dhhftdt = year + "/" + month + "/" + datee;
 
-            gquery = "SELECT ENTRYID, VCHDT,VCHNO,GROUPNAME,TOTALQTY ,TOTALBILLAMT AS AMT , (select SUM(TOTALBILLAMT) from SALHEAD_VIEW WHERE GROUPID="+groupid+" AND VCHDT_Y_M_D='"+dhhftdt+"') AS tAMT from SALHEAD_VIEW WHERE GROUPID="+groupid+" AND VCHDT_Y_M_D='"+dhhftdt+"'" ;
+            gquery = "SELECT ENTRYID, VCHDT,VCHNO,GROUPNAME,TOTALQTY ,TOTALBILLAMT AS AMT , (select SUM(TOTALBILLAMT) from SALHEAD_VIEW WHERE GROUPID=" + groupid + " AND VCHDT_Y_M_D='" + dhhftdt + "') AS tAMT from SALHEAD_VIEW WHERE GROUPID=" + groupid + " AND VCHDT_Y_M_D='" + dhhftdt + "'";
 
         }
 
@@ -158,17 +157,17 @@ public class SaleReportDetailActivity extends AppCompatActivity {
                     Map<String, String> datanum = new HashMap<String, String>();
 
                     datanum.put("A", rs.getString("VCHNO"));
-                    datanum.put("B", String.valueOf(rs.getString("VCHDT")).replaceAll("/","-"));
+                    datanum.put("B", String.valueOf(rs.getString("VCHDT")).replaceAll("/", "-"));
                     datanum.put("C", String.valueOf(rs.getBigDecimal("AMT")));
-                    datanum.put("E", rs.getString("TOTALQTY")+" Qty");
+                    datanum.put("E", rs.getString("TOTALQTY") + " Qty");
                     datanum.put("D", rs.getString("GROUPNAME"));
-                    datanum.put("F",String.valueOf(rs.getInt("ENTRYID")));
+                    datanum.put("F", String.valueOf(rs.getInt("ENTRYID")));
 
                     showTotalamt_tv.setText(String.valueOf(rs.getBigDecimal("tAMT")));
                     data.add(datanum);
                 }
-                String[] from = {"A", "B","E","C"};
-                final int[] views = {R.id.sale_bill, R.id.sale_date,R.id.sale_qty, R.id.sale_amt};
+                String[] from = {"A", "B", "E", "C"};
+                final int[] views = {R.id.sale_bill, R.id.sale_date, R.id.sale_qty, R.id.sale_amt};
                 ADA = new SimpleAdapter(SaleReportDetailActivity.this,
                         data, R.layout.sal_report_detail_grid_layout, from, views);
                 gridview.setAdapter(ADA);
@@ -176,25 +175,24 @@ public class SaleReportDetailActivity extends AppCompatActivity {
 
                 gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int  position, long id) {
-                        HashMap<String, String> map = (HashMap<String, String>)parent.getItemAtPosition(position);
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        HashMap<String, String> map = (HashMap<String, String>) parent.getItemAtPosition(position);
                         String ENTRYID = map.get("F");
-                         String netamt = map.get("C");
+                        String netamt = map.get("C");
                         String bill_no = map.get("A");
-                        String bill_date=map.get("B");
-                        Intent intent=new Intent(new Intent(SaleReportDetailActivity.this, SaleReportBillDeatilActivity.class));
-                       intent.putExtra("ENTRYID",ENTRYID);
-                       intent.putExtra("netamt",netamt);
-                       intent.putExtra("cname",cname);
-                        intent.putExtra("bd",bill_date);
-                        intent.putExtra("bn",bill_no);
+                        String bill_date = map.get("B");
+                        Intent intent = new Intent(new Intent(SaleReportDetailActivity.this, SaleReportBillDeatilActivity.class));
+                        intent.putExtra("ENTRYID", ENTRYID);
+                        intent.putExtra("netamt", netamt);
+                        intent.putExtra("cname", cname);
+                        intent.putExtra("bd", bill_date);
+                        intent.putExtra("bn", bill_no);
 
-                       startActivity(intent);
+                        startActivity(intent);
 
 
                     }
                 });
-
 
 
             }
@@ -207,26 +205,27 @@ public class SaleReportDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==android.R.id.home)
+        if (item.getItemId() == android.R.id.home)
             finish();
         return super.onOptionsItemSelected(item);
     }
 
     //search butoon**************************
     public void searchBtuon(View view) {
-        LinearLayout toolbarcontainer=findViewById(R.id.tollbarcontainer);
-        LinearLayout searchconteainer=findViewById(R.id.search_show_layout);
+        LinearLayout toolbarcontainer = findViewById(R.id.tollbarcontainer);
+        LinearLayout searchconteainer = findViewById(R.id.search_show_layout);
         toolbarcontainer.setVisibility(View.GONE);
         searchconteainer.setVisibility(View.VISIBLE);
 
     }
 
     public void searchlosebutton(View view) {
-        LinearLayout toolbarcontainer=findViewById(R.id.tollbarcontainer);
-        LinearLayout searchconteainer=findViewById(R.id.search_show_layout);
+        LinearLayout toolbarcontainer = findViewById(R.id.tollbarcontainer);
+        LinearLayout searchconteainer = findViewById(R.id.search_show_layout);
         toolbarcontainer.setVisibility(View.VISIBLE);
         searchconteainer.setVisibility(View.GONE);
     }
+
     //end search button ###############################
     public void CalenderListbutoon(View view) {
 

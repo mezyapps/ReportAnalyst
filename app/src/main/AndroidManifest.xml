@@ -20,7 +20,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".network_class.IPSettingPageList"/>
+
+        <activity android:name=".view.activity.IPSettingPageListActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".view.activity.SplashActivty"
             android:label="@string/app_name"
@@ -31,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".view.activity.DemoActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".view.activity.LincenseActivity"
@@ -88,7 +92,7 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".view.activity.StockReportActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".network_class.ChnagePassword"
+        <activity android:name=".view.activity.ChangePasswordActivity"
             android:screenOrientation="portrait"/>
     </application>
 

@@ -9,7 +9,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.mezyapps.reportanalyst.network_class.LicenseSession;
+import com.mezyapps.reportanalyst.utils.LicenseSession;
 import com.mezyapps.reportanalyst.R;
 import com.mezyapps.reportanalyst.utils.SessionManager;
 import com.tbruyelle.rxpermissions.RxPermissions;

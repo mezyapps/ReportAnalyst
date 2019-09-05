@@ -13,6 +13,10 @@ public class CustomerOutstndingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_outstnding);
+        find_View_IdS();
+    }
+
+    private void find_View_IdS() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if(getSupportActionBar() != null){
@@ -21,6 +25,7 @@ public class CustomerOutstndingActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==android.R.id.home)

@@ -39,23 +39,33 @@ import java.util.Locale;
 import java.util.Map;
 
 public class SupplierLedgerReportActivity extends AppCompatActivity {
-    Dialog dialog,dialogcustomdate;
-    ConnectionClass connectionClass;
-    SimpleDateFormat df,dff;
-    GridView gridview;
-    List<Map<String, String>> data = null;
-    Connection con;
-    SimpleAdapter ADA;
-    ImageView search_closebutton;
-    TextView todatetexttv,fromdatetexttv,totextet_to,showTotalamt_tv;
-    int serid;
-    DatePickerDialog datePickerDialog;
-    String todateseries,fromdtseries,htdt,hfdt,gquery,fromdate_c_string,todate_c_string,quuerycalender;
+
+    private Dialog dialog,dialogcustomdate;
+    private ConnectionClass connectionClass;
+    private SimpleDateFormat df,dff;
+    private GridView gridview;
+    private List<Map<String, String>> data = null;
+    private Connection con;
+    private SimpleAdapter ADA;
+    private ImageView search_closebutton;
+    private TextView todatetexttv,fromdatetexttv,totextet_to,showTotalamt_tv;
+    private int serid;
+    private DatePickerDialog datePickerDialog;
+    private String todateseries,fromdtseries,htdt,hfdt,gquery,fromdate_c_string,todate_c_string,quuerycalender;
+    private Toolbar toolbar;
+    private SearchView searchView_customer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_supplier_ledger_report);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        find_View_IdS();
+        events();
+    }
+
+    private void find_View_IdS() {
+        toolbar = findViewById(R.id.toolbar);
         View view = this.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -65,7 +75,7 @@ public class SupplierLedgerReportActivity extends AppCompatActivity {
 
         gridview = findViewById(R.id.gridviewsalehyead);
         search_closebutton=findViewById(R.id.search_closebutton);
-        final SearchView searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
+        searchView_customer = findViewById(R.id.searchautocompleteforcustomer);
         todatetexttv=findViewById(R.id.to_date_textview);
         totextet_to=findViewById(R.id.to_textview);
         fromdatetexttv=findViewById(R.id.from_date_textview);
@@ -83,12 +93,9 @@ public class SupplierLedgerReportActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-
+    }
+    private void events() {
         ggeatdataforgrid();
-
-
-        //start searchview *****************************
-
         searchView_customer.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -108,13 +115,9 @@ public class SupplierLedgerReportActivity extends AppCompatActivity {
                 return false;
             }
         });
-//end search view##############################################3
-
-
     }
 
     private void ggeatdataforgrid() {
-        //start customer and amt grid**************************************
 
         if (serid != 0)
         {
