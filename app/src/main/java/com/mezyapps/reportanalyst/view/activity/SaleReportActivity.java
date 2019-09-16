@@ -243,7 +243,7 @@ public class SaleReportActivity extends AppCompatActivity {
 
 //  start  calender button task **********************************************
 
-dialog = new Dialog(SaleReportActivity.this);
+        dialog = new Dialog(SaleReportActivity.this);
         dialog.setContentView(R.layout.calender_list_for_sale);
 
                 dialog.show();
@@ -332,19 +332,28 @@ dialog = new Dialog(SaleReportActivity.this);
         dff = new SimpleDateFormat("dd-MM-yyyy");
         String startDate, endDate ;
         df = new SimpleDateFormat("yyyy/MM/dd");
+
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.DATE, 1);
         cal.add(Calendar.DAY_OF_MONTH, -1);
         Date lastDateOfPreviousMonth = cal.getTime();
         endDate=df.format(lastDateOfPreviousMonth);
+
         todatetexttv.setVisibility(View.VISIBLE);
         todatetexttv.setText(dff.format(lastDateOfPreviousMonth));
+
+
         cal.set(Calendar.DATE, 1);
+
         fromdatetexttv.setVisibility(View.VISIBLE);
+
         Date firstDateOfPreviousMonth = cal.getTime();
+
         fromdatetexttv.setText(dff.format(firstDateOfPreviousMonth));
+
         startDate=df.format(firstDateOfPreviousMonth);
         totextet_to.setVisibility(View.VISIBLE);
+
         getcalenderwisedata(startDate,endDate);
         dialog.hide();
 

@@ -16,6 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary" >
+
             <LinearLayout
                 android:id="@+id/tollbarcontainer"
                 android:weightSum="5"
@@ -28,6 +29,7 @@
                     android:layout_height="wrap_content"
                     android:text="Sale Report"
                     android:textColor="#fff"/>
+
                 <ImageView
                     android:onClick="searchBtuon"
                     android:id="@+id/serch_button_click"
@@ -44,6 +46,7 @@
                     android:layout_height="25dp"
                     android:src="@drawable/events_calendar_icon"/>
             </LinearLayout>
+
             <LinearLayout
                 android:weightSum="5"
                 android:background="@drawable/ripple"

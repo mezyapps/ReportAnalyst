@@ -1,118 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:orientation="vertical">
-    <LinearLayout
-        android:paddingLeft="20dp"
-        android:orientation="vertical"
-        android:background="@color/colorPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:textScaleX="1.1"
-           android:gravity="center_vertical"
-            android:textColor="#fff"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="Select Time"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-            android:textSize="20sp"
-            android:fontFamily="calibri"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:orientation="vertical"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:fontFamily="calibri"
+                android:gravity="center_vertical"
+                android:text="Select Time"
+                android:textColor="#fff"
+                android:textScaleX="1.1"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="20dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="calibri"
+                android:onClick="todaydatemethod"
+                android:text="Today"
+                android:textColor="#000"
+                android:textFontWeight="200"
+                android:textScaleX="1.1"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="calibri"
+                android:onClick="yesterdaydatemethd"
+                android:text="Yesterday"
+                android:textColor="#000"
+                android:textFontWeight="400"
+                android:textScaleX="1.1"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="calibri"
+                android:onClick="thisweekdatemethod"
+                android:text="This Week"
+                android:textColor="#000"
+                android:textFontWeight="500"
+                android:textScaleX="1.1"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="calibri"
+                android:onClick="thismonthmethod"
+                android:text="This Month"
+                android:textColor="#000"
+                android:textScaleX="1.1"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="calibri"
+                android:onClick="lastmonthmethod"
+                android:text="Last Month"
+                android:textColor="#000"
+                android:textScaleX="1.1"
+                android:textSize="17sp" />
+            <!--<TextView-->
+            <!--android:onClick="thisquartermethod"-->
+            <!--android:textScaleX="1.1"-->
+            <!--android:textSize="17sp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:text="This Quarter"-->
+            <!--android:fontFamily="calibri"-->
+            <!--android:textColor="#000"/>-->
+            <!--<TextView-->
+            <!--android:onClick="thisyearmethod"-->
+            <!--android:textScaleX="1.1"-->
+            <!--android:textSize="17sp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:text="This Year"-->
+            <!--android:fontFamily="calibri"-->
+            <!--android:textColor="#000"/>-->
+            <!--<TextView-->
+            <!--android:textScaleX="1.1"-->
+            <!--android:textSize="17sp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:text="Last Year"-->
+            <!--android:fontFamily="calibri"-->
+            <!--android:textColor="#000"/>-->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:fontFamily="calibri"
+                android:onClick="customdatemethod"
+                android:text="Custom Date"
+                android:textColor="#000"
+                android:textScaleX="1.1"
+                android:textSize="17sp" />
+        </LinearLayout>
     </LinearLayout>
-       <LinearLayout
-           android:orientation="vertical"
-           android:paddingLeft="20dp"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content">
-           <TextView
-               android:onClick="todaydatemethod"
-               android:textScaleX="1.1"
-               android:textFontWeight="200"
-               android:textSize="17sp"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:text="Today"
-               android:fontFamily="calibri"
-               android:textColor="#000"/>
-           <TextView
-               android:onClick="yesterdaydatemethd"
-               android:textScaleX="1.1"
-               android:textFontWeight="400"
-               android:textSize="17sp"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:text="Yesterday"
-               android:fontFamily="calibri"
-               android:textColor="#000"/>
-           <TextView
-               android:onClick="thisweekdatemethod"
-               android:textScaleX="1.1"
-               android:textFontWeight="500"
-               android:textSize="17sp"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:text="This Week"
-               android:fontFamily="calibri"
-               android:textColor="#000"/>
-           <TextView
-               android:onClick="thismonthmethod"
-               android:textScaleX="1.1"
-               android:textSize="17sp"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:text="This Month"
-               android:fontFamily="calibri"
-               android:textColor="#000"/>
-           <TextView
-               android:onClick="lastmonthmethod"
-               android:textSize="17sp"
-               android:textScaleX="1.1"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:text="Last Month"
-               android:fontFamily="calibri"
-               android:textColor="#000"/>
-           <!--<TextView-->
-               <!--android:onClick="thisquartermethod"-->
-               <!--android:textScaleX="1.1"-->
-               <!--android:textSize="17sp"-->
-               <!--android:layout_width="match_parent"-->
-               <!--android:layout_height="40dp"-->
-               <!--android:text="This Quarter"-->
-               <!--android:fontFamily="calibri"-->
-               <!--android:textColor="#000"/>-->
-           <!--<TextView-->
-               <!--android:onClick="thisyearmethod"-->
-               <!--android:textScaleX="1.1"-->
-               <!--android:textSize="17sp"-->
-               <!--android:layout_width="match_parent"-->
-               <!--android:layout_height="40dp"-->
-               <!--android:text="This Year"-->
-               <!--android:fontFamily="calibri"-->
-               <!--android:textColor="#000"/>-->
-           <!--<TextView-->
-               <!--android:textScaleX="1.1"-->
-               <!--android:textSize="17sp"-->
-               <!--android:layout_width="match_parent"-->
-               <!--android:layout_height="40dp"-->
-               <!--android:text="Last Year"-->
-               <!--android:fontFamily="calibri"-->
-               <!--android:textColor="#000"/>-->
-           <TextView
-               android:onClick="customdatemethod"
-               android:textScaleX="1.1"
-               android:textSize="17sp"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:text="Custom Date"
-               android:fontFamily="calibri"
-               android:textColor="#000"/>
-       </LinearLayout>
-   </LinearLayout>
 </RelativeLayout>
